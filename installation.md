@@ -271,6 +271,10 @@ podman restart cockdb1
 podman rm -f cockdb1
 ```
 
+```
+Remove-Item -Recurse -Force E:\podman-instances\cockdb
+```
+
 persistent **single-node CockroachDB** on the `venkat-net` network with data stored under `E:\podman-instances\cockdb`, 
 
 ---Next Session, making it easy to expand later into a 3-node cluster for your demo.
