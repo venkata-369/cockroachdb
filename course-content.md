@@ -1,6 +1,6 @@
-# CockroachDB DBA Course (35 Days)
+## CockroachDB DBA Course (35 Days)
 
-## Module 1: Introduction to CockroachDB
+### Module 1: Introduction to CockroachDB
 
 * What is CockroachDB?
 * Evolution of Databases
@@ -14,20 +14,21 @@
 
 ---
 
-# Module 2: Installation & Environment Setup
+### Module 2: Installation & Environment Setup
 
 * Prerequisites
 * Oracle Linux 9 Installation
 * Install CockroachDB
 * Single-Node Cluster (Insecure)
 * Secure vs Insecure Mode
-* TLS Certificate Architecture
-* Create CA Certificate
-* Create Node Certificate
-* Create Client Certificate
-* Start CockroachDB Service
-* Configure Systemd
-* Configure Firewall
+* Single-Node Cluster (Secure)
+    * TLS Certificate Architecture
+    * Create CA Certificate
+    * Create Node Certificate
+    * Create Client Certificate
+    * Start CockroachDB Service
+    * Configure Systemd
+    * Configure Firewall
 * DB Console
 * SQL Client
 * Three-Node Cluster Installation
@@ -35,7 +36,7 @@
 
 ---
 
-# Module 3: CockroachDB Architecture
+### Module 3: CockroachDB Architecture
 
 * Distributed SQL Architecture
 * Node Architecture
@@ -60,7 +61,7 @@
 
 ---
 
-# Module 4: SQL Fundamentals
+## Module 4: SQL Fundamentals
 
 * Databases
 * Schemas
