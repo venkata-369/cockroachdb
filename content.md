@@ -19,6 +19,10 @@
 * Single-Node Cluster
 * Secure vs Insecure Mode
 * Single-Node Cluster (Production method)
+  - CA Certificate Creation
+  - Node Certificates
+  - Client Certificates
+  - TLS Authentication
 * Web UI
 * SQL Client
 * Three-Node Cluster
@@ -41,7 +45,7 @@
 * Raft Consensus
 * Hands-On
      - Explore Internal metadata tables
-* Cluster Topology
+
 
 ---
 
