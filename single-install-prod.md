@@ -121,8 +121,6 @@ cockroach cert create-client root \
    --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
 ```
 
- [\[cockroachlabs.com\]](https://www.cockroachlabs.com/docs/stable/secure-a-cluster)
-
 ***
 
 ### 6. Verify Certificates
