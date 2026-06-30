@@ -46,9 +46,9 @@ cockroach version
 
 Example output:
 
-````text
+```text
 Build Tag:        v24.3.5
-```【2-7bca74】
+```
 
 ---
 
@@ -80,11 +80,11 @@ sudo su - cockroach
 
 Create CA certificate:
 
-````bash
+```bash
 mkdir -p /var/lib/cockroach/my-safe-directory
 
 cockroach cert create-ca --certs-dir=/var/lib/cockroach/certs --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
-```【1-a6ac07】
+```
 
 ---
 
@@ -101,7 +101,7 @@ hostname -I
 
 Generate node certificate:
 
-````bash
+```bash
 cockroach cert create-node \
   localhost \
   127.0.0.1 \
@@ -109,7 +109,7 @@ cockroach cert create-node \
   $(hostname -I | awk '{print $1}') \
   --certs-dir=/var/lib/cockroach/certs \
   --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
-```【1-a6ac07】【3-400b01】
+```
 
 ---
 
@@ -119,7 +119,7 @@ cockroach cert create-node \
 cockroach cert create-client root \
    --certs-dir=/var/lib/cockroach/certs \
    --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
-````
+```
 
  [\[cockroachlabs.com\]](https://www.cockroachlabs.com/docs/stable/secure-a-cluster)
 
