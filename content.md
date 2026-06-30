@@ -40,7 +40,7 @@
 * Gossip Protocol
 * Raft Consensus
 * Hands-On
-     Explore Internal metadata tables
+     - Explore Internal metadata tables
 * Cluster Topology
 
 ---
