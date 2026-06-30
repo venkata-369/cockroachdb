@@ -14,6 +14,9 @@ uname -r
 
 ```bash
 sudo dnf update -y
+---to verify once
+rpm -qa | grep -E "wget|curl|tar|firewalld"
+--- if not install 
 sudo dnf install -y wget curl tar firewalld
 ```
 
