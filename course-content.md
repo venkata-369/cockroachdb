@@ -10,7 +10,7 @@
 * Editions (Core, Enterprise, Cloud)
 * Use Cases
 * Architecture Overview
-* Course Roadmap
+
 
 ---
 
