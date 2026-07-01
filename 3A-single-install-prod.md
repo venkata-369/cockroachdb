@@ -325,9 +325,9 @@ WantedBy=multi-user.target
 ```bash
 sudo systemctl daemon-reload
 
-sudo systemctl enable cockroach
+sudo systemctl enable cockroach.service
 
-sudo systemctl start cockroach
+sudo systemctl start cockroach.service
 ```
 
 Verify.
