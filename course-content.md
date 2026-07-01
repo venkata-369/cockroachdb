@@ -36,7 +36,7 @@
 
 ---
 
-### Module 3: CockroachDB Architecture
+### Module 3: Cockroachdb Distributed Architecture
 
 * Distributed SQL Architecture
 * Node Architecture
