@@ -98,11 +98,9 @@ After this, we have to proceed with below steps
 * **Step 12:** Run `cockroach init`.
 * **Step 13:** Verify the 2-node cluster.
 
-Then, in a later lesson, we'll add **Node3 (10.10.10.13)** and explain how CockroachDB rebalances ranges and replicas after a new node joins.
+Later we will add **Node3 (10.10.10.13)** and explain how CockroachDB rebalances ranges and replicas after a new node joins.
 
-Yes. Let's build this cleanly like a production guide.
-
-## Lab Environment
+### Lab Environment
 
 | Node  | Hostname  | Host-Only IP  | NAT IP            |
 | ----- | --------- | ------------- | ----------------- |
@@ -118,7 +116,7 @@ We will use **Host-Only IPs** (`10.10.10.x`) for cluster communication.
 
 ---
 
-# Step 7 - Generate Certificates (Node1 Only)
+### Step 7 - Generate Certificates (Node1 Only)
 
 ## Login
 
@@ -151,7 +149,7 @@ cockroach cert create-ca \
 
 ---
 
-## Generate Node1 Certificate
+### Generate Node1 Certificate
 
 Still on **Node1** as **cockroach**:
 
@@ -168,11 +166,17 @@ cockroach cert create-node \
 
 ---
 
-## Generate Node2 Certificate
+### Generate Node2 Certificate
 
 Still on **Node1** as **cockroach**.
 
 Generate Node2's certificate **before copying it**:
+
+First create the directory:
+
+```bash
+mkdir -p /var/lib/cockroach/certs/node2
+```
 
 ```bash
 cockroach cert create-node \
@@ -183,12 +187,6 @@ cockroach cert create-node \
   192.168.235.248 \
   --certs-dir=/var/lib/cockroach/certs/node2 \
   --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
-```
-
-First create the directory:
-
-```bash
-mkdir -p /var/lib/cockroach/certs/node2
 ```
 
 This creates:
@@ -206,7 +204,7 @@ for **Node2** inside:
 
 ---
 
-## Generate Root Client Certificate
+### Generate Root Client Certificate
 
 Still on **Node1**:
 
@@ -218,7 +216,7 @@ cockroach cert create-client root \
 
 ---
 
-# Step 8 - Copy Certificates to Node2
+## Step 8 - Copy Certificates to Node2
 
 Login as:
 
@@ -229,7 +227,7 @@ User : venkat
 
 Copy **Node2** certificates.
 
-On **Node2**, create the directories first:
+On **Node2**, create the directories first, already we created. make sure once
 
 ```bash
 sudo mkdir -p /var/lib/cockroach/certs
@@ -293,7 +291,7 @@ sudo chmod 600 /var/lib/cockroach/certs/*.key
 
 ---
 
-# Step 9 - Create Systemd Service
+### Step 9 - Create Systemd Service
 
 Do this on **both Node1 and Node2** as **venkat**.
 
@@ -357,7 +355,7 @@ WantedBy=multi-user.target
 
 ---
 
-# Step 10 - Start Services
+### Step 10 - Start Services
 
 Run on **both nodes** as **venkat**:
 
@@ -381,7 +379,7 @@ sudo systemctl status cockroach
 
 ---
 
-# Step 11 - Initialize the Cluster
+### Step 11 - Initialize the Cluster
 
 **Important:** Run this **only once**.
 
@@ -401,7 +399,7 @@ Cluster successfully initialized
 
 ---
 
-# Step 12 - Verify Nodes
+### Step 12 - Verify Nodes
 
 Run on **Node1**:
 
@@ -431,13 +429,12 @@ cockroach sql \
 Then:
 
 ```sql
-SELECT node_id,address,is_live
-FROM crdb_internal.gossip_nodes;
+SELECT node_id,address,is_live FROM crdb_internal.gossip_nodes;
 ```
 
 ---
 
-# Step 13 - Verify Replication
+### Step 13 - Verify Replication
 
 ```sql
 SHOW RANGES FROM DATABASE system;
@@ -451,11 +448,11 @@ FROM crdb_internal.ranges
 LIMIT 20;
 ```
 
-Since this is a **2-node lab**, you'll initially see replicas based on your configured replication factor. Later, when you add **Node3** and increase `num_replicas` to 3, you'll be able to demonstrate proper Raft quorum, replica distribution, and leaseholder balancing.
+Since this is a **2-node cluster**, you will initially see replicas based on your configured replication factor. Later, when you add **Node3** and increase `num_replicas` to 3, you will be able to demonstrate proper Raft quorum, replica distribution, and leaseholder balancing.
 
 ---
 
-## One correction to your certificate generation
+### Note:- One correction to the certificate generation
 
 In the steps above, I used a separate directory (`certs/node2`) to avoid overwriting `node.crt` and `node.key`. That's the recommended approach when generating certificates for multiple nodes from the same CA. Each node must receive **its own** `node.crt` and `node.key`, while sharing the same `ca.crt` and (optionally) the same `client.root.*` certificates.
 
