@@ -126,8 +126,16 @@ We will use **Host-Only IPs** (`10.10.10.x`) for cluster communication.
 Hostname : oel9-n1
 User     : venkat
 ```
+Switch to the root user:
 
-Switch to the CockroachDB user:
+```bash
+sudo -i
+passwd cockroach
+```
+set password like cock123
+
+
+then Switch to the CockroachDB user:
 
 ```bash
 sudo su - cockroach
