@@ -71,8 +71,9 @@
 * Computed Columns
 * Sequences
 * Views
-* Transactions
+* Transactions - MVCC
 * ACID Properties
+     - Isolation Levels
 * UPSERT
 * IMPORT
 * EXPORT
