@@ -1,4 +1,4 @@
-## CockroachDB DBA Course (35 Days)
+## CockroachDB administrator Course 
 
 ### Module 1: Introduction to CockroachDB
 
