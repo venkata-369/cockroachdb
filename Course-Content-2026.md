@@ -105,6 +105,18 @@
 * Revokes
 * RBAC
 * Encryption
+---
+
+### Module 9: Backup & Restore
+
+* FULL BACKUPS
+* Incremental Backup
+* RESTORE
+* Scheduled Backups
+* Cloud Storage Backups
+* Backup Encryption
+* Backup Validation
+---
 
 ### Module 6: Cluster Administration
 
@@ -151,18 +163,6 @@
 
 ---
 
-### Module 9: Backup & Restore
-
-* FULL BACKUPS
-* Incremental Backup
-* RESTORE
-* Scheduled Backups
-* Cloud Storage Backups
-* Backup Encryption
-* Backup Validation
-
----
-
 ### Module 10: Monitoring & Observability
 
 * DB Console
@@ -179,10 +179,13 @@
 
 ---
 
-# Module 11: High Availability & Replication
+### Module 11: Replication
 
-* Replication
-* Replica Placement
+* Physical Replication
+   - Overview
+   - Configuration & Setup
+   - Failover from Primary to Standby
+   - Monitoring
 * Quorum
 * Leaseholders
 * Lease Transfer
