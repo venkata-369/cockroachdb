@@ -58,29 +58,7 @@
 * Cluster Verification
 ---
 
-## Module 4: SQL Fundamentals
-
-* Databases
-* Schemas
-* Tables
-* Data Types
-* Constraints
-* Primary Keys
-* Secondary Indexes
-* Unique Indexes
-* Computed Columns
-* Sequences
-* Views
-* Transactions - MVCC
-* ACID Properties
-     - Isolation Levels
-* UPSERT
-* IMPORT
-* EXPORT
-
----
-
-# Module 5: Distributed Storage Internals
+### Module 4: Distributed Storage Internals
 
 ### Storage Engine
 
@@ -118,18 +96,7 @@
 
 ---
 
-# Module 6: Database Administration
-
-### Database Objects
-
-* Databases
-* Schemas
-* Tables
-* Constraints
-* Sequences
-* Views
-
-### User Administration
+### Module 5: Security & User Management
 
 * Users
 * Roles
@@ -137,47 +104,44 @@
 * Grants
 * Revokes
 * RBAC
-* Default Privileges
+* Encryption
 
-### Multi-Tenancy
+### Module 6: Cluster Administration
 
-* Tenant Architecture
-* Logical Separation
-* Resource Isolation
-
-**Hands-on**
-
-* User Management
-* Database Administration
-
----
-
-# Module 7: Cluster Administration
-
-* Cluster Initialization
-* Cluster Settings
+* Production CheckList
+     - https://www.cockroachlabs.com/docs/v26.2/recommended-production-settings
+* Cluster Initialization & Settings
 * Cluster Configuration
 * Node Management
 * Node Decommission
 * Node Recommission
 * Cluster Upgrade
 * Cluster Health
-* Licensing
 * Locality Configuration
-* Cluster Diagnostics
+* Cluster Diagnostics (Manage Long-Running Queries)
+* Licensing
 
 ---
 
-# Module 8: Performance Tuning
+### Module 8: Performance Tuning
 
-* MVCC Performance
+* Transactions
+     - MVCC Performance
+* ACID Properties
+* UPSERT
+* IMPORT
+* EXPORT
+* Indexes
+     - Secondary Indexes
+     - Partial Indexes
+     - Hash sharded Indexes
+     - Vector Indexes 
 * EXPLAIN
 * EXPLAIN ANALYZE
 * Query Optimizer
 * Statistics
 * Cost-Based Optimization
 * Query Plans
-* Index Design
 * Session Settings
 * Vectorized Execution
 * Statement Diagnostics
@@ -187,34 +151,31 @@
 
 ---
 
-# Module 9: Backup & Restore
+### Module 9: Backup & Restore
 
-* BACKUP
-* BACKUP INTO
+* FULL BACKUPS
 * Incremental Backup
 * RESTORE
 * Scheduled Backups
 * Cloud Storage Backups
 * Backup Encryption
-* Disaster Recovery
-* Validation
+* Backup Validation
 
 ---
 
-# Module 10: Monitoring & Observability
+### Module 10: Monitoring & Observability
 
 * DB Console
-* Metrics
-* Logs
+* Metrics Dashboards
+* Sessions Page
 * Health Checks
-* Events
-* Prometheus
-* Grafana
-* Alerting
-* Capacity Monitoring
-* SQL Activity
-* Slow Queries
-* crdb_internal Tables
+* Statement & Transactions Page
+* Network Page
+* Transactions Page
+* Jobs Page
+* Schedules Page
+* Advanced Debug Page
+   - License
 
 ---
 
