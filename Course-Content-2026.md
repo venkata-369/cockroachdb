@@ -11,9 +11,7 @@
 * Use Cases
 * Architecture Overview
 
-
 ---
-
 ### Module 2: Installation & Environment Setup
 
 * Prerequisites
@@ -99,12 +97,17 @@
 ### Module 5: Security & User Management
 
 * Users
+* Password Policies
 * Roles
 * Role Hierarchy
 * Grants
 * Revokes
 * RBAC
 * Encryption
+   - Encryption in Transit
+   - Encryption at Rest
+* Audit Logs
+* Security Best Practices
 ---
 
 ### Module 9: Backup & Restore
@@ -203,6 +206,7 @@
 * Geo-Partitioning
 * Multi-Region SQL
 * Latency Optimization
+---
 
 ### Module 11: Cross-Cluster Replication (HA)
 
@@ -217,24 +221,7 @@
    - Monitor Logical Replication
 ---
 
-# Module 14: Security
-
-* Authentication
-* Authorization
-* TLS Certificates
-* Certificate Rotation
-* Certificate Renewal
-* SQL Users
-* Password Policies
-* RBAC
-* Encryption in Transit
-* Encryption at Rest
-* Audit Logs
-* Security Best Practices
-
----
-
-# Module 15: Troubleshooting
+### Module 15: Troubleshooting
 
 * Node Down
 * Cluster Down
@@ -254,29 +241,10 @@
 
 ---
 
-# Module 16: Production Best Practices
+### Module 17: Automation & Kubernetes
 
-* Production Architecture
-* Hardware Sizing
-* CPU Recommendations
-* Memory Recommendations
-* Storage Recommendations
-* Filesystem Recommendations
-* Backup Strategy
-* Monitoring Strategy
-* Security Checklist
-* Upgrade Strategy
-* Maintenance Windows
-* Disaster Recovery Planning
-
----
-
-# Module 17: Automation & Kubernetes
-
-### Containers
-
-* Docker
-* Podman Desktop
+* Containers
+   - Docker / Podman Desktop
 
 ### Kubernetes
 
@@ -298,7 +266,7 @@
 
 ---
 
-# Module 18: Migration to CockroachDB
+### Module 18: Migration to CockroachDB
 
 * PostgreSQL Compatibility
 * Schema Migration
@@ -309,8 +277,22 @@
 * Migration Best Practices
 
 ---
+### Module 16: Production Best Practices
 
-# Module 19: Enterprise Features
+* Production Architecture
+* Hardware Sizing
+* CPU Recommendations
+* Memory Recommendations
+* Storage Recommendations
+* Filesystem Recommendations
+* Backup Strategy
+* Monitoring Strategy
+* Security Checklist
+* Upgrade Strategy
+* Maintenance Windows
+* Disaster Recovery Planning
+
+### Module 19: Enterprise Features
 
 * Enterprise Licensing
 * Scheduled Backups
@@ -322,37 +304,8 @@
 
 ---
 
-# Module 20: DBA Interview Questions & Real-Time Scenarios
-
-### Architecture Scenarios
-
-* Cluster Design
-* Range Distribution
-* Leaseholder Placement
-
-### High Availability Scenarios
-
-* Node Failure
-* Quorum Loss
-* Network Partition
-* Failover
-
-### Performance Scenarios
-
-* Slow Queries
-* High CPU
-* Hotspots
-* Contention
-
-### Administration Scenarios
-
-* Backup Failures
-* Certificate Expiry
-* Cluster Upgrade
-* Node Replacement
-
-### Production Case Studies
-
+### Module 20: DBA Interview Questions & Real-Time Scenarios
+   - Production Case Studies
 * Banking
 * E-Commerce
 * SaaS
@@ -361,4 +314,3 @@
 
 ---
 
-#at production DBAs and SREs are expected to know.
