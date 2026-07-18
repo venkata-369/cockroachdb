@@ -60,7 +60,7 @@ This matters because some `crdb_internal` tables, DB Console pages, and administ
 
 ---
 
-# PART 1 — STORAGE ENGINE
+### PART 1 — STORAGE ENGINE
 
 ### 1. Storage Engine Architecture
 
