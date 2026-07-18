@@ -176,30 +176,9 @@
 * Schedules Page
 * Advanced Debug Page
    - License
-
 ---
 
-### Module 11: Replication
-
-* Physical Replication
-   - Overview
-   - Configuration & Setup
-   - Failover from Primary to Standby
-   - Monitoring
-* Quorum
-* Leaseholders
-* Lease Transfer
-* Node Failure
-* Replica Recovery
-* Rebalancing
-* Network Partition
-* Locality
-* Zone Configurations
-* Failover Demonstration
-
----
-
-# Module 12: Scaling CockroachDB
+### Module 12: Scaling CockroachDB
 
 * Horizontal Scaling
 * Vertical Scaling
@@ -210,10 +189,9 @@
 * Cluster Expansion
 * Rolling Upgrades
 * Online Scaling
-
 ---
 
-# Module 13: Multi-Region Deployment
+### Module 13: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
 * Regions
@@ -226,6 +204,17 @@
 * Multi-Region SQL
 * Latency Optimization
 
+### Module 11: Cross-Cluster Replication (HA)
+
+* Physical Replication
+   - Overview
+   - Configuration & Setup
+   - Failover from Primary to Standby
+   - Monitoring
+* Logical Data Replication
+   - Overview
+   - Configuration & Setup
+   - Monitor Logical Replication
 ---
 
 # Module 14: Security
