@@ -93,7 +93,6 @@
 * Replica Recovery
 
 ---
-
 ### Module 5: Security & User Management
 
 * Users
@@ -110,7 +109,7 @@
 * Security Best Practices
 ---
 
-### Module 9: Backup & Restore
+### Module 6: Backup & Restore
 
 * FULL BACKUPS
 * Incremental Backup
@@ -121,7 +120,7 @@
 * Backup Validation
 ---
 
-### Module 6: Cluster Administration
+### Module 7: Cluster Administration
 
 * Production CheckList
      - https://www.cockroachlabs.com/docs/v26.2/recommended-production-settings
@@ -137,7 +136,6 @@
 * Licensing
 
 ---
-
 ### Module 8: Performance Tuning
 
 * Transactions
@@ -165,8 +163,7 @@
 * Contention Analysis
 
 ---
-
-### Module 10: Monitoring & Observability
+### Module 9: Monitoring & Observability
 
 * DB Console
 * Metrics Dashboards
@@ -181,7 +178,7 @@
    - License
 ---
 
-### Module 12: Scaling CockroachDB
+### Module 10: Scaling CockroachDB
 
 * Horizontal Scaling
 * Vertical Scaling
@@ -193,8 +190,7 @@
 * Rolling Upgrades
 * Online Scaling
 ---
-
-### Module 13: Multi-Region Cluster [AWS (or) GCP (or) Azure]
+### Module 11: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
 * Regions
@@ -207,8 +203,7 @@
 * Multi-Region SQL
 * Latency Optimization
 ---
-
-### Module 11: Cross-Cluster Replication (HA)
+### Module 12: Cross-Cluster Replication (HA)
 
 * Physical Replication
    - Overview
@@ -220,8 +215,7 @@
    - Configuration & Setup
    - Monitor Logical Replication
 ---
-
-### Module 15: Troubleshooting
+### Module 13: Troubleshooting
 
 * Node Down
 * Cluster Down
@@ -238,10 +232,9 @@
 * Network Partition
 * Backup Failures
 * SQL Connection Problems
-
 ---
 
-### Module 17: Automation & Kubernetes
+### Module 14: Automation & Kubernetes
 
 * Containers
    - Docker / Podman Desktop
@@ -259,15 +252,13 @@
 * Terraform
 * Ansible (Overview)
 
-### CI/CD
+#### CI/CD
 
 * GitHub Actions
 * Kubernetes Deployment Automation
-
 ---
 
-### Module 18: Migration to CockroachDB
-
+### Module 15: Migration to CockroachDB
 * PostgreSQL Compatibility
 * Schema Migration
 * Data Migration
@@ -275,10 +266,9 @@
 * Cutover Strategy
 * Rollback Strategy
 * Migration Best Practices
-
 ---
-### Module 16: Production Best Practices
 
+### Module 16: Production Best Practices
 * Production Architecture
 * Hardware Sizing
 * CPU Recommendations
@@ -291,9 +281,9 @@
 * Upgrade Strategy
 * Maintenance Windows
 * Disaster Recovery Planning
+---
 
-### Module 19: Enterprise Features
-
+### Module 17: Enterprise Features
 * Enterprise Licensing
 * Scheduled Backups
 * Changefeeds
@@ -301,16 +291,14 @@
 * Multi-Region Enterprise Features
 * Backup to Cloud Storage
 * Enterprise Security Features
-
 ---
 
-### Module 20: DBA Interview Questions & Real-Time Scenarios
+### Module 18: DBA Interview Questions & Real-Time Scenarios
    - Production Case Studies
-* Banking
-* E-Commerce
-* SaaS
-* Financial Services
-* Multi-Region Deployments
-
+      * Banking
+      * E-Commerce
+      * SaaS
+      * Financial Services
+      * Multi-Region Deployments
 ---
 
