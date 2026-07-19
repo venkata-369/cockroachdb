@@ -1,4 +1,4 @@
-## CockroachDB administrator Course 
+## CockroachDB Administrator Course 
 
 ### Module 1: Introduction to CockroachDB
 
@@ -56,7 +56,23 @@
 * Cluster Verification
 ---
 
-### Module 4: Distributed Storage Internals
+### Module 4: Security & User Management
+
+* Users
+* Password Policies
+* Roles
+* Role Hierarchy
+* Grants
+* Revokes
+* RBAC
+* Encryption
+   - Encryption in Transit
+   - Encryption at Rest
+* Audit Logs
+* Security Best Practices
+---
+
+### Module 5: Distributed Storage Internals
 
 ### Storage Engine
 
@@ -91,24 +107,7 @@
 * Leaseholder Election
 * Failover
 * Replica Recovery
-
----
-### Module 5: Security & User Management
-
-* Users
-* Password Policies
-* Roles
-* Role Hierarchy
-* Grants
-* Revokes
-* RBAC
-* Encryption
-   - Encryption in Transit
-   - Encryption at Rest
-* Audit Logs
-* Security Best Practices
----
-
+  ---
 ### Module 6: Backup & Restore
 
 * FULL BACKUPS
@@ -140,6 +139,21 @@
 * Licensing
 
 ---
+
+### Module 9: Monitoring & Observability
+
+* DB Console
+* Metrics Dashboards
+* Sessions Page
+* Health Checks
+* Statement & Transactions Page
+* Network Page
+* Transactions Page
+* Jobs Page
+* Schedules Page
+* Advanced Debug Page
+   - License
+---
 ### Module 8: Performance Tuning
 
 * Transactions
@@ -167,21 +181,6 @@
 * Contention Analysis
 
 ---
-### Module 9: Monitoring & Observability
-
-* DB Console
-* Metrics Dashboards
-* Sessions Page
-* Health Checks
-* Statement & Transactions Page
-* Network Page
-* Transactions Page
-* Jobs Page
-* Schedules Page
-* Advanced Debug Page
-   - License
----
-
 ### Module 10: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
@@ -282,7 +281,5 @@
 * Disaster Recovery Planning
 ---
 
-   - 
-     
----
+ 
 
