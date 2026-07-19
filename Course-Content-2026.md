@@ -182,7 +182,7 @@
    - License
 ---
 
-### Module 11: Multi-Region Cluster [AWS (or) GCP (or) Azure]
+### Module 10: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
 * Regions
@@ -195,7 +195,7 @@
 * Multi-Region SQL
 * Latency Optimization
 ---
-### Module 12: Cross-Cluster Replication (HA)
+### Module 11: Cross-Cluster Replication (HA)
 
 * Physical Replication
    - Overview
@@ -207,7 +207,7 @@
    - Configuration & Setup
    - Monitor Logical Replication
 ---
-### Module 13: Troubleshooting
+### Module 12: Troubleshooting
 
 * Node Down
 * Cluster Down
@@ -226,7 +226,7 @@
 * SQL Connection Problems
 ---
 
-### Module 14: Automation & Kubernetes
+### Module 13: Automation & Kubernetes
 
 * Containers
    - Docker / Podman Desktop
@@ -250,7 +250,7 @@
 * Kubernetes Deployment Automation
 ---
 
-### Module 15: Migration to CockroachDB
+### Module 14: Migration to CockroachDB
 * PostgreSQL Compatibility
 * Schema Migration
 * Data Migration
@@ -260,8 +260,15 @@
 * Migration Best Practices
 ---
 
-### Module 16: Production Best Practices
+### Module 15: Production Best Practices
 * Production Architecture
+     - DBA Interview Questions & Real-Time Scenarios
+     - Production Case Studies
+        * Banking
+        * E-Commerce
+        * SaaS
+        * Financial Services
+        * Multi-Region Deployments
 * Hardware Sizing
 * CPU Recommendations
 * Memory Recommendations
@@ -275,22 +282,7 @@
 * Disaster Recovery Planning
 ---
 
-### Module 17: Enterprise Features
-* Enterprise Licensing
-* Scheduled Backups
-* Changefeeds
-* Row-Level TTL
-* Multi-Region Enterprise Features
-* Backup to Cloud Storage
-* Enterprise Security Features
----
-
-### Module 18: DBA Interview Questions & Real-Time Scenarios
-   - Production Case Studies
-      * Banking
-      * E-Commerce
-      * SaaS
-      * Financial Services
-      * Multi-Region Deployments
+   - 
+     
 ---
 
