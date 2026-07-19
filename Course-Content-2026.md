@@ -125,13 +125,17 @@
 * Production CheckList
      - https://www.cockroachlabs.com/docs/v26.2/recommended-production-settings
 * Cluster Initialization & Settings
+     - Overview
+          - Horizantal Scaling
+          - Vertical Scaling
 * Cluster Configuration
 * Node Management
+     - Adding Node
+     - Remoing Node 
 * Node Decommission
 * Node Recommission
 * Cluster Upgrade
 * Cluster Health
-* Locality Configuration
 * Cluster Diagnostics (Manage Long-Running Queries)
 * Licensing
 
@@ -178,18 +182,6 @@
    - License
 ---
 
-### Module 10: Scaling CockroachDB
-
-* Horizontal Scaling
-* Vertical Scaling
-* Adding Nodes
-* Removing Nodes
-* Automatic Rebalancing
-* Capacity Planning
-* Cluster Expansion
-* Rolling Upgrades
-* Online Scaling
----
 ### Module 11: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
