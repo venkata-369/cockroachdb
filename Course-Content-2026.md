@@ -74,7 +74,7 @@
 
 ### Module 5: Distributed Storage Internals
 
-### Storage Engine
+#### Storage Engine
 
 * Pebble Storage Engine
 * SSTables
@@ -84,14 +84,14 @@
 * Write Path
 * Read Path
 
-### MVCC
+#### MVCC
 
 * MVCC Architecture
 * Version Storage
 * Garbage Collection
 * Closed Timestamps
 
-### Range Management
+#### Range Management
 
 * Range Splits
 * Range Merges
@@ -99,15 +99,14 @@
 * Automatic Rebalancing
 * Automatic Sharding
 
-### Replication Internals
+#### Replication Internals
 
 * Replica Factor
 * Quorum
 * Leader Election
 * Leaseholder Election
 * Failover
-* Replica Recovery
-  ---
+---
 ### Module 6: Backup & Restore
 
 * FULL BACKUPS
