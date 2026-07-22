@@ -85,7 +85,7 @@ employees
 ### Step 3 – Take a full backup
 
 ```sql
-BACKUP DATABASE defaultdb INTO 'nodelocal://1/full_backup';
+BACKUP DATABASE blrdb INTO 'nodelocal://1/full_backup';
 ```
 
 ---
@@ -158,24 +158,19 @@ INSERT INTO customers VALUES (100001,'Backup User','backup@test.com');
 ```
 
 ```sql
-INSERT INTO orders
-VALUES
-(9001,100001,'Laptop',1,65000);
+INSERT INTO orders VALUES (9001,100001,'Laptop',1,65000);
 ```
 
 Verify:
 
 ```sql
-SELECT *
-FROM customers
-WHERE customer_id=100001;
+SELECT * FROM customers WHERE customer_id=100001;
 ```
 
 Create an incremental backup:
 
 ```sql
-BACKUP DATABASE defaultdb
-INTO LATEST IN 'nodelocal://1/inc_demo';
+BACKUP DATABASE defaultdb INTO LATEST IN 'nodelocal://1/inc_demo';
 ```
 
 View backup chain:
@@ -187,9 +182,7 @@ SHOW BACKUPS IN 'nodelocal://1/inc_demo';
 Inspect the latest backup:
 
 ```sql
-SHOW BACKUP
-FROM LATEST
-IN 'nodelocal://1/inc_demo';
+SHOW BACKUP FROM LATEST IN 'nodelocal://1/inc_demo';
 ```
 
 ---
@@ -213,9 +206,7 @@ DROP DATABASE defaultdb CASCADE;
 Restore:
 
 ```sql
-RESTORE DATABASE defaultdb
-FROM LATEST
-IN 'nodelocal://1/inc_demo';
+RESTORE DATABASE defaultdb FROM LATEST IN 'nodelocal://1/inc_demo';
 ```
 
 Verify:
@@ -237,8 +228,7 @@ SELECT COUNT(*) FROM employees;
 Backup a single table:
 
 ```sql
-BACKUP TABLE defaultdb.public.customers
-INTO 'nodelocal://1/customer_backup';
+BACKUP TABLE defaultdb.public.customers INTO 'nodelocal://1/customer_backup';
 ```
 
 View backup:
@@ -250,9 +240,7 @@ SHOW BACKUPS IN 'nodelocal://1/customer_backup';
 Restore:
 
 ```sql
-RESTORE TABLE defaultdb.public.customers
-FROM LATEST
-IN 'nodelocal://1/customer_backup';
+RESTORE TABLE defaultdb.public.customers FROM LATEST IN 'nodelocal://1/customer_backup';
 ```
 
 ---
