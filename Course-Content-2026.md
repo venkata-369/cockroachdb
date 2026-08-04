@@ -139,7 +139,7 @@
 
 ---
 
-### Module 9: Monitoring & Observability
+### Module 8: Monitoring & Observability
 
 * DB Console
 * Metrics Dashboards
@@ -153,34 +153,7 @@
 * Advanced Debug Page
    - License
 ---
-### Module 8: Performance Tuning
-
-* Transactions
-     - MVCC Performance
-* ACID Properties
-* UPSERT
-* IMPORT
-* EXPORT
-* Indexes
-     - Secondary Indexes
-     - Partial Indexes
-     - Hash sharded Indexes
-     - Vector Indexes 
-* EXPLAIN
-* EXPLAIN ANALYZE
-* Query Optimizer
-* Statistics
-* Cost-Based Optimization
-* Query Plans
-* Session Settings
-* Vectorized Execution
-* Statement Diagnostics
-* SQL Activity
-* Hotspots
-* Contention Analysis
-
----
-### Module 10: Multi-Region Cluster [AWS (or) GCP (or) Azure]
+### Module 09: Multi-Region Cluster [AWS (or) GCP (or) Azure]
 
 * Localities
 * Regions
@@ -193,7 +166,7 @@
 * Multi-Region SQL
 * Latency Optimization
 ---
-### Module 11: Cross-Cluster Replication (HA)
+### Module 10: Cross-Cluster Replication (HA)
 
 * Physical Replication
    - Overview
@@ -205,25 +178,47 @@
    - Configuration & Setup
    - Monitor Logical Replication
 ---
-### Module 12: Troubleshooting
+### Module 11: Performance Tuning & Troubleshooting
 
-* Node Down
-* Cluster Down
-* Disk Full
-* High CPU
-* High Memory
-* High Latency
-* Slow Queries
-* Hot Ranges
-* Leaseholder Imbalance
-* Replica Problems
-* Clock Skew
-* Certificate Expiry
-* Network Partition
-* Backup Failures
-* SQL Connection Problems
+- Transaction Performance
+- MVCC Performance
+- ACID Performance Considerations
+- UPSERT Performance
+- IMPORT Performance
+- EXPORT Performance
+- Index Tuning
+- Query Optimization
+- Query Optimizer
+- Cost-Based Optimizer (CBO)
+- Statistics
+- Query Plans
+- EXPLAIN
+- EXPLAIN ANALYZE
+- Vectorized Execution
+- Session Settings
+- Statement Diagnostics
+- SQL Activity Monitoring
+- Hotspots
+- Hot Ranges
+- Contention Analysis
+- Leaseholder Imbalance
+- Slow Queries
+- High CPU Usage
+- High Memory Usage
+- High Latency
+- SQL Connection Performance Issues
 ---
 
+### Module 12: Migration to CockroachDB
+* PostgreSQL Compatibility
+* Schema Migration
+* Data Migration
+* Validation
+* Cutover Strategy
+* Rollback Strategy
+* Migration Best Practices
+---
+## Advanced 
 ### Module 13: Automation & Kubernetes
 
 * Containers
@@ -237,48 +232,13 @@
 * Scaling
 * Rolling Updates
 
-### Infrastructure as Code
+### Infrastructure as Code & CI/CD
 
 * Terraform
 * Ansible (Overview)
-
-#### CI/CD
-
 * GitHub Actions
 * Kubernetes Deployment Automation
----
 
-### Module 14: Migration to CockroachDB
-* PostgreSQL Compatibility
-* Schema Migration
-* Data Migration
-* Validation
-* Cutover Strategy
-* Rollback Strategy
-* Migration Best Practices
----
-
-### Module 15: Production Best Practices
-* Production Architecture
-     - DBA Interview Questions & Real-Time Scenarios
-     - Production Case Studies
-        * Banking
-        * E-Commerce
-        * SaaS
-        * Financial Services
-        * Multi-Region Deployments
-* Hardware Sizing
-* CPU Recommendations
-* Memory Recommendations
-* Storage Recommendations
-* Filesystem Recommendations
-* Backup Strategy
-* Monitoring Strategy
-* Security Checklist
-* Upgrade Strategy
-* Maintenance Windows
-* Disaster Recovery Planning
----
 
  
 
