@@ -90,30 +90,7 @@ node.key
 
 ---
 
-## Then Copy to `/var/lib/cockroach/certs/`
-
-```bash
-sudo mkdir -p /var/lib/cockroach/certs
-sudo cp /home/ubuntu/certs/ca.crt /var/lib/cockroach/certs/
-sudo cp /home/ubuntu/certs/node.crt /var/lib/cockroach/certs/
-sudo cp /home/ubuntu/certs/node.key /var/lib/cockroach/certs/
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/ca.crt
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/node.crt
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/node.key
-sudo chmod 700 /var/lib/cockroach/certs
-```
-
----
-
-## ⚠️ Key Point
-
-| Issue | Detail |
-|---|---|
-| `file exists` error | Old `node.crt`/`node.key` from Node 3 were copied over — delete them first |
-| Each node needs its own cert | `node.crt` must be generated **per node** with that node's IP |
-| `ca.crt` is shared | Keep `ca.crt` — it is the same for all Mumbai nodes |
-
-[[Generate Certificates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
+[[CockroachDB Doc Generate Certificates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
 
 ---
 
