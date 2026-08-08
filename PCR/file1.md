@@ -70,11 +70,7 @@ cockroach cert create-node \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
 
-[[Generate Certificates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
-
----
-
-## Verify New Certs
+### Verify New Certs
 
 ```bash
 ls -lrt /home/ubuntu/certs/
