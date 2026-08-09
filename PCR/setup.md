@@ -62,7 +62,7 @@ cockroach cert create-node \
 
 ---
 
-## ⚠️ Key Points
+#### ⚠️ Key Points
 
 | Item | Detail |
 |---|---|
