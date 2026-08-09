@@ -56,7 +56,7 @@ total 20
 ```
 [[Required Keys and Certificates Documention](https://www.cockroachlabs.com/docs/stable/authentication#using-cockroach-cert-or-openssl-commands)]
 ```
-
+---
 ### So the Flow is:
 
 - `/var/lib/cockroach/certs` → used by the **CockroachDB service** to run the node
