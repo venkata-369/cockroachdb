@@ -47,6 +47,27 @@ total 20
 -rw-r--r-- 1 ubuntu ubuntu 1147 Aug  9 02:44 client.root.crt
 -rw------- 1 ubuntu ubuntu 1675 Aug  9 02:44 client.root.key
 ```
+```
+| Certificate | Location | Used By |
+|---|---|---|
+| `ca.crt` | `/var/lib/cockroach/certs` | CockroachDB **service** (cockroach user) |
+| `node.crt` + `node.key` | `/var/lib/cockroach/certs` | CockroachDB **service** (cockroach user) |
+| `client.root.crt` + `client.root.key` | `/home/ubuntu/certs` | **CLI commands** run by ubuntu user |
+
+[[Required Keys and Certificates](https://www.cockroachlabs.com/docs/stable/authentication#using-cockroach-cert-or-openssl-commands)]
+```
+---
+
+### So the Flow is:
+
+- `/var/lib/cockroach/certs` → used by the **CockroachDB service** to run the node
+- `/home/ubuntu/certs` → used by **you** when running CLI commands like:
+  - `cockroach init`
+  - `cockroach sql`
+  - `cockroach node status`
+
+
+---
 ### Step 5: Copy Certs to `/var/lib/cockroach/certs/` on Node 1
 
 ```bash
