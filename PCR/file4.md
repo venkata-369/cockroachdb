@@ -173,7 +173,7 @@ The output confirms replication is working:
 | 1 | system | ready | shared |
 | 3 | main | **running initial scan** | none |
 
-`running initial scan` means Mumbai is currently copying all existing data from Singapore. This is completely normal! [[PCR Monitoring](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-monitoring#sql-shell)]
+`running initial scan` means Mumbai is currently copying all existing data from Singapore. This is completely normal! [[PCR Monitoring CockroachDB Documentation](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-monitoring#sql-shell)]
 
 ---
 
