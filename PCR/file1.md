@@ -117,11 +117,39 @@ cockroach cert create-client root \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
 
+dafdasfsdfasdfsadfdsfsadfadsfadsfdsfdsfsdfsdafadsfsdfadsfsdfasfdsfasdfadsfasdfsssssssssssssssssssssssss
+Yes, the certificates look **correct**! Here is what to confirm:
+
+---
+
+## ✅ Certificate Verification
+
+| Item | Node 3 | Node 4 | Status |
+|---|---|---|---|
+| CA cert | `ca.crt` expires 2036/08/15 | `ca.crt` expires 2036/08/15 | ✅ Same CA |
+| Node cert | expires 2031/08/13 | expires 2031/08/12 | ✅ Valid |
+| Node address | `10.10.3.10` | `10.10.4.10` | ✅ Correct IPs |
+| Error column | empty | empty | ✅ No errors |
+
+[[List Certificates](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises#step-2-generate-certificates)]
+
+---
+
+## ✅ What This Confirms
+
+- Both nodes have the **same CA** (`ca.crt`) — required for nodes to trust each other
+- Each node has its **own unique node cert** with the correct IP address
+- **No errors** in either certificate
+- Certificates are **valid for many years**
+
+---
+
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
 ---
 
 ## Step 4: Update Service Files on BOTH Mumbai Nodes
 
-Run on **each Mumbai node**:
+Run on **Each Mumbai node**:
 
 ```bash
 sudo tee /etc/default/cockroach <<EOF
@@ -129,15 +157,60 @@ NODE_IP=10.10.3.10
 DATA_DIR=/var/lib/cockroach/data
 LOG_DIR=/var/lib/cockroach/logs
 JOIN_NODES=10.10.3.10:26257,10.10.4.10:26257
-LOCALITY=region=mumbai,zone=mumbai-3hub
+LOCALITY=region=ap-south-1,zone=ap-south-1a
 CERTS_DIR=/var/lib/cockroach/certs
 EOF
 ```
 
+```bash
+sudo tee /etc/default/cockroach <<EOF
+NODE_IP=10.10.4.10
+DATA_DIR=/var/lib/cockroach/data
+LOG_DIR=/var/lib/cockroach/logs
+JOIN_NODES=10.10.3.10:26257,10.10.4.10:26257
+LOCALITY=region=ap-south-1,zone=ap-south-1b
+CERTS_DIR=/var/lib/cockroach/certs
+EOF
+```
+
+
 > ⚠️ Change `NODE_IP` and `LOCALITY` accordingly for Node 4.
 
 Update the systemd service on **each node**:
+### Node 3
+```
+sudo tee /etc/systemd/system/cockroach.service <<EOF
+[Unit]
+Description=CockroachDB Database
+After=network-online.target
+Wants=network-online.target
 
+[Service]
+Type=notify
+User=cockroach
+Group=cockroach
+EnvironmentFile=/etc/default/cockroach
+
+ExecStart=/usr/local/bin/cockroach start \
+  --certs-dir=\${CERTS_DIR} \
+  --store=\${DATA_DIR} \
+  --listen-addr=0.0.0.0:26257 \
+  --advertise-addr=\${NODE_IP}:26257 \
+  --http-addr=0.0.0.0:8080 \
+  --join=\${JOIN_NODES} \
+  --locality=\${LOCALITY} \
+  --log-dir=/var/lib/cockroach/logs
+
+Restart=always
+RestartSec=5
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+### Node 4
 ```bash
 sudo tee /etc/systemd/system/cockroach.service <<EOF
 [Unit]
@@ -159,7 +232,7 @@ ExecStart=/usr/local/bin/cockroach start \
   --http-addr=0.0.0.0:8080 \
   --join=\${JOIN_NODES} \
   --locality=\${LOCALITY} \
-  --log-dir=\${LOG_DIR}
+  --log-dir=/var/lib/cockroach/logs
 
 Restart=always
 RestartSec=5
@@ -169,12 +242,29 @@ LimitNOFILE=1048576
 WantedBy=multi-user.target
 EOF
 ```
+**Checklist**
+Verify the Full File
+```
+systemctl cat cockroach
+```
+Make sure you see **all these flags** in `ExecStart`:
+
+| Flag | Expected Value |
+|---|---|
+| `--certs-dir` | `${CERTS_DIR}` |
+| `--store` | `${DATA_DIR}` |
+| `--listen-addr` | `0.0.0.0:26257` |
+| `--advertise-addr` | `${NODE_IP}:26257` |
+| `--http-addr` | `0.0.0.0:8080` |
+| `--join` | `${JOIN_NODES}` |
+| `--locality` | `${LOCALITY}` |
+| `--insecure` | ❌ Must **NOT** be present |
 
 ---
 
-## Step 5: Stop, Wipe Data & Restart on Both Mumbai Nodes
+### Step 5: Stop, Wipe Data & Restart on Both Mumbai Nodes
 
-> ⚠️ This deletes all existing insecure data.
+> ⚠️ This deletes all existing insecure data. Run on **both Node 3 and Node 4**:
 
 ```bash
 sudo systemctl stop cockroach
@@ -182,6 +272,7 @@ sudo rm -rf /var/lib/cockroach/data/*
 sudo systemctl daemon-reload
 sudo systemctl start cockroach
 ```
+You should see `Active: active (running)` on both nodes.
 
 ---
 
@@ -190,10 +281,7 @@ sudo systemctl start cockroach
 Run **once only** from Node 3:
 
 ```bash
-cockroach init \
-  --certs-dir=/home/ubuntu/certs \
-  --host=10.10.3.10 \
-  --virtualized
+cockroach init --certs-dir=/var/lib/cockroach/certs --host=10.10.3.10  
 ```
 
 ---
