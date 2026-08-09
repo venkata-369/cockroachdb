@@ -183,3 +183,142 @@ Expected output:
    1 | 10.10.3.10:26257 | true         | true
    2 | 10.10.4.10:26257 | true         | true
 ```
+Start Replication from Mumbai (Standby) --- Singapore (Primary)
+```
+root@10.10.3.10:26257/defaultdb> CREATE VIRTUAL CLUSTER main
+                              ->   FROM REPLICATION OF system
+                              ->   ON
+                              -> 'postgresql://replicator:repl123@10.30.2.151:26257/defaultdb?options=-ccluster%3Dsystem&sslinline=true&sslmode
+                              -> =verify-full&sslrootcert=-----BEGIN+CERTIFICATE-----%0AMIIDJTCCAg2gAwIBAgIQXUsgZp4IqL%2FrFNXvZGnWBTANBgkqhkiG9
+                              -> w0BAQsFADAr%0AMRIwEAYDV
+                              -> QQKEwlDb2Nrcm9hY2gxFTATBgNVBAMTDENvY2tyb2FjaCBDQTAeFw0y%0ANjA4MDgwMjAzMDJaFw0zNjA4MTYwMjAzMDJaMCsxEjAQBgNVBAoT
+                              ->
+                              -> CUNvY2tyb2Fj%0AaDEVMBMGA1UEAxMMQ29ja3JvYWNoIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A...-----END+CERTIFICATE-----%0A
+                              -> ';
+                              ->
+ERROR: unable to add CA to cert pool
+```
+```
+root@10.10.3.10:26257/defaultdb> CREATE VIRTUAL CLUSTER main
+                              ->   FROM REPLICATION OF system
+                              ->   ON
+                              -> 'postgresql://replicator:repl123@10.30.2.151:26257?options=-ccluster%3Dsystem&sslinline=true&sslmode=verify-fu
+                              -> ll&sslrootcert=-----BEGIN+CERTIFICATE-----%0AMIIDJTCCAg2gAwIBAgIQXUsgZp4IqL%2FrFNXvZGnWBTANBgkqhkiG9w0BAQsFADA
+                              -> r%0AMRIwEAYDVQQKEwlDb2Nrcm9hY2gxFTATBgNVBAMTDENvY2tyb2FjaCBDQTAeFw0y%0ANjA4MDgwMjAzMDJaFw0zNjA4MTYwMjAzMDJaMCs
+                              -> xEjAQBgNVBAoTCUNvY2tyb2Fj%0AaDEVMBMGA1UEAxMMQ29ja3JvYWNoIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A%0AMIIBCgKCAQEArXC
+                              -> I9ryYMZeuugQjIJdncUSNhFYP%2F7jjiFMD0G%2Fxw%2BukapfaypYy%0Ae9Y410jvHM6%2FcV%2F2hORYwOm8Gc1WvlkDRI3vQv8rO3N%2BBH
+                              -> xxUPiRfmvu16haS%2By7%0AlpQHFHJV%2B61wtvMPU695lW7LC2Q5SSYMjd8G%2BoN4tmspd7GotRChPMp3pPT16Yon%0AWCkb0GcgnUyGhoPj
+                              -> UrRqEygMlfL6YXVmtnyGhdoXfZ2rI0035SHucj8UZI2X4ulX%0AUniltklIPWML%2FPQapMIjPN75YtFXtQCVPBQFIB0xUitev6s2Qa32xWRWg
+                              -> 35uHIin%0Aue9pK41qi5ddLkl3mCzGRe%2FZhwkAP6wqywIDAQABo0UwQzAOBgNVHQ8BAf8EBAMC%0AAuQwEgYDVR0TAQH%2FBAgwBgEB%2FwI
+                              -> BATAdBgNVHQ4EFgQU0ChaFMBxxWS7haPaypVj%0AL726nu4wDQYJKoZIhvcNAQELBQADggEBAGcej8RLRvFgaItlEJPrfDrHEnLg3v33%0AMgH
+                              -> zAMeldsI0a5uFZamDo1oFNAERlaedcs7WWPmwVQ%2BOcFtYwD58bJLKraZkW2Fv%0A2TWu4N5dWOVVg3ZLRL49GNpoQq95p%2BAUZA%2FzsM5k
+                              -> fwfuQ1NzQwBa%2FwrN0JGCUpah%0AKWCqAtjPH%2FxrzLSEYSTgoknMu%2F80tIJ1wzip5V%2Fr97xbgMTa2TqxzpvsF7EnVYgo%0AUtRoA%2F
+                              -> B8h%2FhWB99BPosmiGGXg%2FPnCpJe7KnJUTW0IKYcNe%2BSlPw3tuqyn56DJe9G%0A4Qs3yOI2sgv%2BMQ5tWc4fAeI%2F5%2FKGdFUJ9rdlg
+                              -> TYLN%2FMuqpe%2BQh2ZYDI%3D%0A-----END+CERTIFICATE-----%0A';
+ERROR: error creating replication stream for tenant system: ERROR: crdb_internal.start_replication_stream(): kv.rangefeed.enabled must be true to start a replication job (SQLSTATE XXUUU)
+root@10.10.3.10:26257/defaultdb>
+```
+### Notes to Fix:-
+## Fix: Enable `kv.rangefeed.enabled` on Mumbai (Standby)
+
+The error is clear:
+```
+kv.rangefeed.enabled must be true to start a replication job
+```
+
+You need to enable rangefeeds on the **Mumbai standby cluster's system virtual cluster**. [[PCR Primary Cluster Setup](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#step-1-create-the-primary-cluster)]
+
+---
+
+## Fix: Connect to Mumbai System Virtual Cluster
+
+On **crdb-node3** (Mumbai), exit the current SQL shell first:
+
+```sql
+\q
+```
+Then reconnect specifically to the **system virtual cluster**:
+
+```bash
+cockroach sql \
+  --url "postgresql://root@10.10.3.10:26257?options=-ccluster=system&sslmode=verify-full" \
+  --certs-dir=/home/ubuntu/certs
+```
+
+---
+
+## Enable Rangefeed on Mumbai System Virtual Cluster
+
+```sql
+SET CLUSTER SETTING kv.rangefeed.enabled = true;
+```
+
+Verify:
+
+```sql
+SHOW CLUSTER SETTING kv.rangefeed.enabled;
+```
+
+Expected:
+```
+  kv.rangefeed.enabled
+------------------------
+        true
+```
+---
+WorkLog Output 
+```
+ubuntu@crdb-node3:~$ cockroach sql \
+  --url "postgresql://root@10.10.3.10:26257?options=-ccluster=system&sslmode=verify-full" \
+  --certs-dir=/home/ubuntu/certs
+#
+# Welcome to the CockroachDB SQL shell.
+# All statements must be terminated by a semicolon.
+# To exit, type: \q.
+#
+# Server version: CockroachDB CCL v25.2.2 (x86_64-pc-linux-gnu, built 2025/06/23 13:45:25, go1.23.7 X:nocoverageredesign) (same version as client)
+# Cluster ID: 4301c167-821d-43de-bd5d-2d43ed3ecb44
+# Organization: djs-colo
+#
+# Enter \? for a brief introduction.
+#
+root@10.10.3.10:26257/defaultdb> SET CLUSTER SETTING kv.rangefeed.enabled = true;
+SET CLUSTER SETTING
+
+Time: 4ms total (execution 4ms / network 0ms)
+
+root@10.10.3.10:26257/defaultdb> SHOW CLUSTER SETTING kv.rangefeed.enabled;
+  kv.rangefeed.enabled
+------------------------
+           t
+(1 row)
+
+Time: 1ms total (execution 0ms / network 0ms)
+```
+---
+
+## Also Enable on Singapore (Primary) System Virtual Cluster
+
+On **crdb-node8** (Singapore):
+
+```bash
+cockroach sql \
+  --url "postgresql://root@10.30.2.151:26257?options=-ccluster=system&sslmode=verify-full" \
+  --certs-dir=/home/ubuntu/certs
+```
+
+```sql
+SET CLUSTER SETTING kv.rangefeed.enabled = true;
+```
+
+---
+
+## Then Retry `CREATE VIRTUAL CLUSTER` on Mumbai
+
+```sql
+CREATE VIRTUAL CLUSTER main
+  FROM REPLICATION OF system
+  ON 'postgresql://replicator:repl123@10.30.2.151:26257/defaultdb?options=-ccluster%3Dsystem&sslinline=true&sslmode=verify-full&sslrootcert=-----BEGIN+CERTIFICATE-----...-----END+CERTIFICATE-----%0A';
+```
+
+[[PCR Example](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#example)]
