@@ -281,7 +281,34 @@ You should see `Active: active (running)` on both nodes.
 Run **once only** from Node 3:
 
 ```bash
-cockroach init --certs-dir=/var/lib/cockroach/certs --host=10.10.3.10  
+sudo cockroach init --certs-dir=/var/lib/cockroach/certs --host=10.10.3.10
+```
+or
+```
+cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.3.10
+```
+
+Expected Output
+```
+ubuntu@crdb-node3:~$ cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.3.10
+Cluster successfully initialized
+```
+List
+```
+cockroach node status \
+  --certs-dir=/home/ubuntu/certs \
+  --host=10.10.3.10
+```
+Expected Output
+```
+ubuntu@crdb-node3:~$ cockroach node status \
+  --certs-dir=/home/ubuntu/certs \
+  --host=10.10.3.10
+  id |     address      |   sql_address    |  build  |              started_at              |              updated_at              |              locality              | is_available | is_live
+-----+------------------+------------------+---------+--------------------------------------+--------------------------------------+------------------------------------+--------------+----------
+   1 | 10.10.3.10:26257 | 10.10.3.10:26257 | v25.2.2 | 2026-08-09 01:32:50.498025 +0000 UTC | 2026-08-09 01:35:32.552168 +0000 UTC | region=ap-south-1,zone=ap-south-1a | true         | true
+   2 | 10.10.4.10:26257 | 10.10.4.10:26257 | v25.2.2 | 2026-08-09 01:32:50.810229 +0000 UTC | 2026-08-09 01:35:32.83211 +0000 UTC  | region=ap-south-1,zone=ap-south-1b | true         | true
+(2 rows)
 ```
 
 ---
