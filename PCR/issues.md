@@ -130,5 +130,56 @@ sudo systemctl status cockroach
 [[Deploy On-Premises](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises#step-3-start-nodes)]
 
 ---
+> ⚠️ Please share the output of `sudo journalctl -xeu cockroach.service | tail -50` so I can give you the exact fix based on the actual error message
+---
+## ✅ Node 4 is Now Running in Secure Mode!
 
-> ⚠️ Please share the output of `sudo journalctl -xeu cockroach.service | tail -50` so I can give you the exact fix based on the actual error message.
+The CGroup line confirms it:
+```
+cockroach start --certs-dir=/var/lib/cockroach/certs ...
+```
+
+The warning `unable to contact the other nodes` is **completely normal** at this stage — it just means the cluster has not been initialized yet. Both nodes are waiting for `cockroach init`. [[Cluster Node Availability](https://www.cockroachlabs.com/docs/v25.2/cluster-setup-troubleshooting#client-connection-issues)]
+
+---
+
+### ✅ Current Status
+
+| Node | Mode | Status |
+|---|---|---|
+| Node 3 (10.10.3.10) | ✅ Secure | ✅ Running |
+| Node 4 (10.10.4.10) | ✅ Secure | ✅ Running |
+
+---
+
+### ⏭️ Next Step: Initialize the Cluster
+
+Run this **once only** from **Node 3**:
+
+```bash
+cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.3.10
+```
+
+
+You should see:
+```
+Cluster successfully initialized
+```
+
+---
+
+## Then Verify Both Nodes are Live
+
+```bash
+cockroach node list \
+  --certs-dir=/home/ubuntu/certs \
+  --host=10.10.3.10
+```
+
+Expected output:
+```
+  id |     address      | is_available | is_live
+-----+------------------+--------------+---------
+   1 | 10.10.3.10:26257 | true         | true
+   2 | 10.10.4.10:26257 | true         | true
+```
