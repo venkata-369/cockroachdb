@@ -168,8 +168,8 @@ Certificate directory: /var/lib/cockroach/certs
 | Node 1 IP | `10.30.2.151` |
 | Node 2 IP | `10.30.2.198` |
 | Delete temp files | Remove `~/sg-ca.crt` and `~/sg-ca.key` from local machine after copying |
-
 ```
+---
 ## ✅ Node 2 (crdb-node9) `/var/lib/cockroach/certs` is Correct!
 
 | Item | Value | Status |
