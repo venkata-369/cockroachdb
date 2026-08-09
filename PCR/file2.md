@@ -31,7 +31,22 @@ cockroach cert create-node \
   --certs-dir=/home/ubuntu/certs \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
-
+Generate Root Client Certificate on crdb-node8
+```
+cockroach cert create-client root \
+  --certs-dir=/home/ubuntu/certs \
+  --ca-key=/home/ubuntu/my-safe-directory/ca.key
+```
+Expected
+```
+ubuntu@crdb-node8:~$ ls -lrt certs/
+total 20
+-rw-r--r-- 1 ubuntu ubuntu 1151 Aug  9 02:03 ca.crt
+-rw------- 1 ubuntu ubuntu 1675 Aug  9 02:03 node.key
+-rw-r--r-- 1 ubuntu ubuntu 1204 Aug  9 02:03 node.crt
+-rw-r--r-- 1 ubuntu ubuntu 1147 Aug  9 02:44 client.root.crt
+-rw------- 1 ubuntu ubuntu 1675 Aug  9 02:44 client.root.key
+```
 ### Step 5: Copy Certs to `/var/lib/cockroach/certs/` on Node 1
 
 ```bash
