@@ -53,8 +53,8 @@ total 20
 | `ca.crt` | `/var/lib/cockroach/certs` | CockroachDB **service** (cockroach user) |
 | `node.crt` + `node.key` | `/var/lib/cockroach/certs` | CockroachDB **service** (cockroach user) |
 | `client.root.crt` + `client.root.key` | `/home/ubuntu/certs` | **CLI commands** run by ubuntu user |
-
-[[Required Keys and Certificates](https://www.cockroachlabs.com/docs/stable/authentication#using-cockroach-cert-or-openssl-commands)]
+```
+[[Required Keys and Certificates Documention](https://www.cockroachlabs.com/docs/stable/authentication#using-cockroach-cert-or-openssl-commands)]
 ```
 ---
 
