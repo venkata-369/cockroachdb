@@ -161,6 +161,7 @@ Certificate directory: /var/lib/cockroach/certs
   Node  | node.crt         | node.key | 2031/08/13 | addresses: localhost,10.30.2.198,127.0.0.1 |
 (2 rows)
 ```
+```
 | Item | Detail |
 |---|---|
 | Singapore CA | Must be **separate** from Mumbai CA |
