@@ -315,9 +315,39 @@ ubuntu@crdb-node3:~$ cockroach node status \
 
 ## What's Next After Mumbai
 
-| Task | Detail |
-|---|---|
-| ✅ Mumbai Node 3 | Certs done |
-| ✅ Mumbai Node 4 | Certs done (just completed) |
-| ⏳ Singapore Node 1 & 2 | Repeat cert generation with a **separate CA** for Singapore cluster |
-| ⏳ PCR Setup | Exchange CA certs between clusters after both are initialized |
+### ✅ Mumbai Cluster is Fully Operational!
+
+Both nodes are live and healthy:
+
+| Node | Address | Locality | Available | Live |
+|---|---|---|---|---|
+| 1 | 10.10.3.10:26257 | ap-south-1a | ✅ true | ✅ true |
+| 2 | 10.10.4.10:26257 | ap-south-1b | ✅ true | ✅ true |
+
+---
+
+### ⏭️ What's Next — Singapore Cluster Setup
+
+Now you need to set up the **Singapore cluster** (primary cluster for PCR). Here is the overall plan: [[PCR Setup](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication)]
+
+### Singapore Cluster Steps:
+1. **Generate certificates** on Singapore Node 1 (separate CA from Mumbai)
+2. **Copy CA** to Singapore Node 2
+3. **Generate node certs** on each Singapore node
+4. **Copy certs** to `/var/lib/cockroach/certs/` on each node
+5. **Update service files** on both Singapore nodes
+6. **Start CockroachDB** on both nodes
+7. **Initialize** Singapore cluster with `cockroach init`
+
+---
+
+## PCR Architecture Reminder
+
+| Cluster | Region | Role |
+|---|---|---|
+| Singapore (Node 1 & 2) | ap-southeast-1 | **Primary** (active, serves traffic) |
+| Mumbai (Node 3 & 4) | ap-south-1 | **Standby** (passive, receives replication) |
+
+---
+
+
