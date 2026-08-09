@@ -56,7 +56,6 @@ total 20
 ```
 [[Required Keys and Certificates Documention](https://www.cockroachlabs.com/docs/stable/authentication#using-cockroach-cert-or-openssl-commands)]
 ```
----
 
 ### So the Flow is:
 
@@ -66,8 +65,6 @@ total 20
   - `cockroach sql`
   - `cockroach node status`
 
-
----
 ### Step 5: Copy Certs to `/var/lib/cockroach/certs/` on Node 1
 
 ```bash
