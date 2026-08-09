@@ -155,7 +155,7 @@ Time: 10ms total (execution 9ms / network 0ms)
 ```
 ---
 
-## ⚠️ Important Notes
+#### ⚠️ Important Notes
 
 | Item | Detail |
 |---|---|
@@ -164,4 +164,66 @@ Time: 10ms total (execution 9ms / network 0ms)
 | `initializing replication` state | Normal — replication is starting |
 | CA exchange | Required for clusters to trust each other |
 
-Ready to start with **Step 1**? Share your Mumbai Node 3 and Node 4 public IPs so we can proceed!
+## ✅ PCR Replication Stream Started Successfully!
+
+The output confirms replication is working:
+
+| id | name | data_state | service_mode |
+|---|---|---|---|
+| 1 | system | ready | shared |
+| 3 | main | **running initial scan** | none |
+
+`running initial scan` means Mumbai is currently copying all existing data from Singapore. This is completely normal! [[PCR Monitoring](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-monitoring#sql-shell)]
+
+---
+
+### ⏭️ Monitor Replication Progress
+
+Run this on **crdb-node3** (Mumbai) to watch the replication status:
+
+```sql
+SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
+```
+
+### States You Will See in Order:
+
+| State | Meaning |
+|---|---|
+| `running initial scan` | Copying existing data from Singapore |
+| `initializing replication` | Initial scan done, setting up stream |
+| `replicating` | ✅ Fully replicating — steady state |
+
+---
+
+## Keep Monitoring Until `replicating` State
+
+```sql
+SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
+```
+
+Expected final output:
+```
+  id | name | source_tenant_name | replicated_time | replication_lag | status
+-----+------+--------------------+-----------------+-----------------+-------------
+   3 | main | system             | 2026-08-09 ...  | 00:00:XX        | replicating
+```
+
+Key fields to check:
+- `replication_lag` — should be small (seconds)
+- `replicated_time` — should be advancing every ~30s
+- `status` — should show `replicating`
+
+[[PCR Monitoring](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-monitoring#sql-shell)]
+
+---
+
+#### ✅ Overall PCR Status
+
+| Item | Status |
+|---|---|
+| Singapore (Primary) | ✅ Running |
+| Mumbai (Standby) | ✅ Running |
+| Replication Stream | ✅ Started |
+| Initial Scan | ⏳ In Progress |
+
+
