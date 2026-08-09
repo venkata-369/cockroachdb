@@ -313,7 +313,7 @@ SET CLUSTER SETTING kv.rangefeed.enabled = true;
 
 ---
 
-## Then Retry `CREATE VIRTUAL CLUSTER` on Mumbai
+#### Then Retry `CREATE VIRTUAL CLUSTER` on Mumbai
 
 ```sql
 CREATE VIRTUAL CLUSTER main
