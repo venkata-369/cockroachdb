@@ -139,7 +139,7 @@ node.key (owned by cockroach)
 
 ---
 
-## ⚠️ Key Point
+#### ⚠️ Key Point
 
 | Issue | Detail |
 |---|---|
