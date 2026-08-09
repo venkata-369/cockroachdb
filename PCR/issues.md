@@ -322,3 +322,123 @@ CREATE VIRTUAL CLUSTER main
 ```
 
 [[PCR Example](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#example)]
+---
+Issue in Node 4 from Mumbai
+```
+ubuntu@crdb-node4:~$ cockroach cert create-client root \
+  --certs-dir=/home/ubuntu/certs \
+  --ca-key=/home/ubuntu/my-safe-directory/ca.key
+W260809 05:20:56.775037 1 security/certificate_loader.go:311  [-] 1  bad filename /home/ubuntu/certs/ca-singapore.crt: unknown prefix "ca-singapore"
+ubuntu@crdb-node4:~$ cockroach sql  --certs-dir=/home/ubuntu/certs  --host=10.10.4.10
+#
+# Welcome to the CockroachDB SQL shell.
+# All statements must be terminated by a semicolon.
+# To exit, type: \q.
+#
+#
+# ATTENTION: YOU ARE CONNECTED TO THE SYSTEM TENANT OF A MULTI-TENANT CLUSTER.
+# PROCEED WITH CAUTION. YOU ARE RESPONSIBLE FOR ENSURING THAT YOU DO NOT
+# PERFORM ANY OPERATIONS THAT COULD DAMAGE THE CLUSTER OR OTHER TENANTS.
+#
+# Server version: CockroachDB CCL v25.2.2 (x86_64-pc-linux-gnu, built 2025/06/23 13:45:25, go1.23.7 X:nocoverageredesign) (same version as client)
+# Cluster ID: 4301c167-821d-43de-bd5d-2d43ed3ecb44
+# Organization: djs-colo
+#
+# Enter \? for a brief introduction.
+#
+root@10.10.4.10:26257/system/defaultdb> show databases;
+ERROR: unexpected EOF
+warning: error retrieving the transaction status: connection closed unexpectedly: conn closed
+warning: connection lost!
+opening new connection: all session settings will be lost
+warning: error retrieving the database name: failed to connect to `host=10.10.4.10 user=root database=`: dial error (dial tcp 10.10.4.10:26257: connect: connection refused)
+root@10.10.4.10:26257/system/? ?>
+```
+
+Issue from Node 4 
+```
+ubuntu@crdb-node4:~$ cockroach sql \
+  --certs-dir=/home/ubuntu/certs \
+  --host=10.10.4.10
+#
+# Welcome to the CockroachDB SQL shell.
+# All statements must be terminated by a semicolon.
+# To exit, type: \q.
+#
+ERROR: cannot dial server.
+Is the server running?
+If the server is running, check --host client-side and --advertise server-side.
+
+failed to connect to `host=10.10.4.10 user=root database=`: dial error (dial tcp 10.10.4.10:26257: connect: connection refused)
+Failed running "sql"
+```
+Update this /etc/systemd/system/cockroach.service and restart
+```
+# /etc/systemd/system/cockroach.service
+[Unit]
+Description=CockroachDB Database
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=cockroach
+Group=cockroach
+EnvironmentFile=/etc/default/cockroach
+
+ExecStart=/usr/local/bin/cockroach start \
+  --certs-dir=${CERTS_DIR} \
+  --store=${DATA_DIR} \
+  --listen-addr=${NODE_IP}:26257 \
+  --advertise-addr=${NODE_IP}:26257 \
+  --join=${JOIN_NODES} \
+  --locality=${LOCALITY} \
+  --cache=.25 \
+  --max-sql-memory=.25
+
+TimeoutStopSec=300
+Restart=always
+RestartSec=5
+LimitNOFILE=1048576
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=cockroach
+
+[Install]
+WantedBy=multi-user.target
+```
+WorkLog Output:- 
+```
+ubuntu@crdb-node4:~$ sudo vi /etc/systemd/system/cockroach.service
+ubuntu@crdb-node4:~$ sudo systemctl daemon-reload
+ubuntu@crdb-node4:~$ sudo systemctl restart cockroach
+ubuntu@crdb-node4:~$ cockroach sql \
+  --certs-dir=/home/ubuntu/certs \
+  --host=10.10.4.10
+#
+# Welcome to the CockroachDB SQL shell.
+# All statements must be terminated by a semicolon.
+# To exit, type: \q.
+#
+#
+# ATTENTION: YOU ARE CONNECTED TO THE SYSTEM TENANT OF A MULTI-TENANT CLUSTER.
+# PROCEED WITH CAUTION. YOU ARE RESPONSIBLE FOR ENSURING THAT YOU DO NOT
+# PERFORM ANY OPERATIONS THAT COULD DAMAGE THE CLUSTER OR OTHER TENANTS.
+#
+# Server version: CockroachDB CCL v25.2.2 (x86_64-pc-linux-gnu, built 2025/06/23 13:45:25, go1.23.7 X:nocoverageredesign) (same version as client)
+# Cluster ID: 4301c167-821d-43de-bd5d-2d43ed3ecb44
+# Organization: djs-colo
+#
+# Enter \? for a brief introduction.
+#
+root@10.10.4.10:26257/system/defaultdb> show databases;
+  database_name | owner | primary_region | secondary_region | regions | survival_goal
+----------------+-------+----------------+------------------+---------+----------------
+  defaultdb     | root  | NULL           | NULL             | {}      | NULL
+  djs_appdb     | root  | NULL           | NULL             | {}      | NULL
+  postgres      | root  | NULL           | NULL             | {}      | NULL
+  system        | node  | NULL           | NULL             | {}      | NULL
+(4 rows)
+
+Time: 13.005s total (execution 11.896s / network 1.109s)
+```
