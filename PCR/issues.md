@@ -442,3 +442,32 @@ root@10.10.4.10:26257/system/defaultdb> show databases;
 
 Time: 13.005s total (execution 11.896s / network 1.109s)
 ```
+---
+```
+root@10.30.2.151:26257/defaultdb> CREATE VIRTUAL CLUSTER main
+                               ->   FROM REPLICATION OF main
+                               ->   ON
+                               -> 'postgresql://replicator:repl123@10.10.3.10:26257?options=-ccluster%3Dsystem&sslinline=true&sslmode=verify-fu
+                               -> ll&sslrootcert=-----BEGIN+CERTIFICATE-----%0AMIIDJjCCAg6gAwIBAgIRAK803m4WpwvsmLorW4fS8z0wDQYJKoZIhvcNAQELBQAw
+                               -> %0AKzESMBAGA1UEChMJQ29ja3JvYWNoMRUwEwYDVQQDEwxDb2Nrcm9hY2ggQ0EwHhcN%0AMjYwODA3MjMwMjQ2WhcNMzYwODE1MjMwMjQ2WjA
+                               -> rMRIwEAYDVQQKEwlDb2Nrcm9h%0AY2gxFTATBgNVBAMTDENvY2tyb2FjaCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEP%0AADCCAQoCggEBAM
+                               -> Op0OBXqyRogUh5NFIYFp5xkz4GBXfUM6wVtVrKY8hWzUesAg7v%0AzHcoZX0m4IUqdZBh%2Ft64V4OX9jHnBYgkZbLB0U658FxfOfTj8nGjFd
+                               -> BfNgCmWI7o%0AjXyjOr715g3FegfVfM8Jdod0seSnmWFhZmizZrRECZlfoxS9d2UpvgnIiCFJ%2F8DY%0ASwHGYo%2FxiCY5eMH7tSfPhs%2B
+                               -> qZ1G6vdZrEP%2BdbyYmlRNhRIniK%2FuzWnQCdNSEvd8E%0Avept33RQxnVYuHDIL11UtX%2FOfIn6UE%2BlqFtKlmeOxoeDMmVUwIWlziV2e
+                               -> 43M7uQp%0A%2Bo9wWgfMhQ1LJnHnzFxdvDkz1uqkx1E37v8CAwEAAaNFMEMwDgYDVR0PAQH%2FBAQD%0AAgLkMBIGA1UdEwEB%2FwQIMAYBAf
+                               -> 8CAQEwHQYDVR0OBBYEFKYQVXCZ62ib0I3Kqr2H%0Amjxgjh%2BwMA0GCSqGSIb3DQEBCwUAA4IBAQAe0oYQTb0fjO9lPxKmZDNhPkypXEkt%0
+                               -> Azq7Pzy5Axe0dtmPXP4x0nVfjl%2B3Y%2BRQLz%2FVK9kxcoTKHfrfluK5s9PMZuMkmThzg%0AALSH%2B9TuwQeUKy0ArgKWap8uOsxA21oyw
+                               -> g%2BTIGXEVyTSt8K3N%2FlzKprXoUz37Ziv%0AL%2FFQOXR%2FVMpCY1Cc%2BIUVT43Ot%2BOM74zuYXafA4QBCS%2BLEXfKOdP%2F4qiHqli
+                               -> zlbma%0AfMb3skoOzeeeFQx8jsnZDTdN3aDG50%2BKVWM430uAKfkEfKizrNqWW8WmDqqSMy28%0AGxg0MCjwTTZBleeNX42pC8V80MXEhOL%
+                               -> 2FFNEyemx7YGv185JmM0WJAuup%0A-----END+CERTIFICATE-----%0A';
+ERROR: failed to connect to `host=10.10.3.10 user=replicator database=`: server error (ERROR: password authentication failed for user replicator (SQLSTATE 28P01))
+```
+```
+-- Check if user exists
+SELECT username FROM system.users WHERE username = 'replicator';
+CREATE USER replicator WITH PASSWORD 'repl123';
+GRANT SYSTEM REPLICATION TO replicator;
+ALTER USER replicator WITH PASSWORD 'repl123';
+GRANT SYSTEM REPLICATION TO replicator;
+SHOW GRANTS ON SYSTEM REPLICATION FOR replicator;
+```
