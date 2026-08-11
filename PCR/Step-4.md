@@ -9,13 +9,13 @@
 
 ---
 
-## Step 1: Exchange CA Certificates Between Clusters
+### Step 1: Exchange CA Certificates Between Clusters
 
 PCR requires each cluster to trust the other's CA certificate. [[PCR Setup](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#step-3-manage-cluster-certificates-and-generate-connection-strings)]
 
 ### Download Singapore CA to your local machine:
 
-```powershell
+```
 scp -i ~/.ssh/id_rsa ubuntu@54.179.159.35:/home/ubuntu/certs/ca.crt ~/sg-ca.crt
 ```
 
@@ -85,7 +85,7 @@ replicator:repl123@10.30.2.151:26257?options=-ccluster%3Dsystem&sslinline=true&s
 ```
 ---
 
-## Step 4: Start Replication from Mumbai (Standby)
+### Step 4: Start Replication from Mumbai (Standby)
 
 SSH into **crdb-node3** (Mumbai) and open SQL shell:
 
@@ -105,7 +105,7 @@ CREATE VIRTUAL CLUSTER main
 
 ---
 
-## Step 5: Verify Replication is Running on Mumbai
+### Step 5: Verify Replication is Running on Mumbai
 
 ```sql
 SHOW VIRTUAL CLUSTERS;
@@ -164,7 +164,7 @@ Time: 10ms total (execution 9ms / network 0ms)
 | `initializing replication` state | Normal — replication is starting |
 | CA exchange | Required for clusters to trust each other |
 
-## ✅ PCR Replication Stream Started Successfully!
+### ✅ PCR Replication Stream Started Successfully!
 
 The output confirms replication is working:
 
@@ -195,7 +195,7 @@ SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
 
 ---
 
-## Keep Monitoring Until `replicating` State
+### Keep Monitoring Until `replicating` State
 
 ```sql
 SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
