@@ -84,32 +84,8 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/d3b9beb9-5de3-4bdc-8ce4-ee3db4d8a4af" />
 
-
 ---
 
-### SQL Syntax Flow
-
-```
-                    ┌──────────────────────────────┐
-                    │  Choose Your LDR Syntax      │
-                    └──────────────┬───────────────┘
-                                   │
-               ┌───────────────────┴──────────────────┐
-               │                                      │
-    ┌──────────▼───────────┐              ┌───────────▼──────────┐
-    │ CREATE LOGICALLY     │              │ CREATE LOGICAL        │
-    │ REPLICATED           │              │ REPLICATION STREAM    │
-    │                      │              │                       │
-    │ ✅ Auto creates table │            │ ✅ Table with         │
-    │ ✅ Fast initial scan  │            │    user-defined types │
-    │ ✅ Uni or Bidirect.   │            │ ✅ Manual setup       │
-    │ ❌ No user-defined    │            │ ✅ Uni or Bidirect.   │
-    │    types allowed      │             │ ⚠️ Pre-create table   │
-    └──────────────────────┘              │   with matching schema│
-                                          └───────────────────────┘
-```
-
----
 
 #### Key Points
 
