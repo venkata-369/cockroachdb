@@ -1,6 +1,8 @@
-### Best Solution: Copy Directly from Local Machine
+### Copy ca.crt files Directly from Local Machine
 
 You need the **Communication Between Node 3 to Node 4 using public IP**. Check your AWS Console for it, then run these commands **from your local Git Bash**:
+
+### ca.crt file should be unique in all the nodes to Ensure Secure 
 
 ### Step 1: Download ca.crt and ca.key from Node 3
 
