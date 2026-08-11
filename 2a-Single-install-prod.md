@@ -1,7 +1,7 @@
-## Step-by-step Installation of CockroachDB v24.x on Oracle Linux 9 (OEL 9)
+### Step-by-step Installation of CockroachDB v24.x on Oracle Linux 9 (OEL 9)
 
 ---
-## Prerequisites
+### Prerequisites
 
 | User          | Purpose                                                                                                                                    |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -11,7 +11,7 @@
 
 ---
 
-## Step 1. Verify Oracle Linux Version
+### Step 1. Verify Oracle Linux Version
 
 **Run As:** `venkat`
 
@@ -24,7 +24,7 @@ uname -r
 
 ---
 
-## Step 2. Update the Operating System
+### Step 2. Update the Operating System
 
 **Run As:** `venkat`
 
@@ -60,7 +60,7 @@ sudo systemctl status firewalld
 
 ---
 
-## Step 3. Download and Install CockroachDB v24.x
+### Step 3. Download and Install CockroachDB v24.x
 
 **Run As:** `venkat`
 
@@ -92,7 +92,7 @@ cockroach version
 
 ---
 
-## Step 4. Create the CockroachDB Service Account
+### Step 4. Create the CockroachDB Service Account
 
 **Run As:** `venkat`
 
@@ -134,7 +134,7 @@ sudo ls -ld /var/lib/cockroach/certs
 
 ---
 
-## Step 5. Generate the Certificate Authority (CA)
+### Step 5. Generate the Certificate Authority (CA)
 
 **Run As:** `cockroach`
 
@@ -160,7 +160,7 @@ ls -l /var/lib/cockroach/my-safe-directory
 
 ---
 
-## Step 6. Generate the Node Certificate
+### Step 6. Generate the Node Certificate
 
 **Run As:** `cockroach`
 
@@ -207,7 +207,7 @@ cockroach cert create-node \
 
 ---
 
-## Step 7. Generate the Root Client Certificate
+### Step 7. Generate the Root Client Certificate
 
 **Run As:** `cockroach`
 
@@ -219,7 +219,7 @@ cockroach cert create-client root \
 
 ---
 
-## Step 8. Verify the Certificates
+### Step 8. Verify the Certificates
 
 **Run As:** `cockroach`
 
@@ -245,7 +245,7 @@ client.root.key
 
 ---
 
-## Step 9. Configure the Firewall
+### Step 9. Configure the Firewall
 
 **Run As:** `venkat`
 
@@ -272,7 +272,7 @@ sudo firewall-cmd --list-ports
 
 ---
 
-## Step 10. Create the Systemd Service
+### Step 10. Create the Systemd Service
 
 **Run As:** `venkat`
 
@@ -318,7 +318,7 @@ WantedBy=multi-user.target
 
 ---
 
-## Step 11. Start the CockroachDB Service
+### Step 11. Start the CockroachDB Service
 
 **Run As:** `venkat`
 
@@ -344,7 +344,7 @@ sudo journalctl -u cockroach -n 100 --no-pager
 
 ---
 
-## Step 12. Verify the Listening Ports
+### Step 12. Verify the Listening Ports
 
 **Run As:** `venkat`
 
@@ -356,7 +356,7 @@ sudo ss -tulpn | grep 8080
 
 ---
 
-## Step 13. Connect Securely to CockroachDB
+### Step 13. Connect Securely to CockroachDB
 
 **Run As:** `cockroach`
 
@@ -374,7 +374,7 @@ SHOW DATABASES;
 
 ---
 
-## Step 14. Create an Administrative User (Optional)
+### Step 14. Create an Administrative User (Optional)
 
 **Run As:** `cockroach`
 
@@ -386,7 +386,7 @@ GRANT admin TO root;
 
 ---
 
-## Step 15. Validate the Installation
+### Step 15. Validate the Installation
 
 ### Access the Admin UI
 
