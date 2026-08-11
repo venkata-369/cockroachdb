@@ -75,6 +75,8 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 
 > **Note:** LDR replicates at the **table level**, giving you flexibility to choose which specific tables to replicate — unlike PCR which replicates the entire cluster. [[LDR Blog](https://www.cockroachlabs.com/blog/logical-data-replication/#How-does-LDR-help-users-accomplish-these-goals?)]
 
+<img width="1920" height="991" alt="image" src="https://github.com/user-attachments/assets/af250d93-683e-4afb-a7c9-a39a91c07517" />
+
 ---
 ### LDR Flow Structure — 2 Regional Clusters (Mumbai ↔ Singapore)
 
