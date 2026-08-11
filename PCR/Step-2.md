@@ -1,3 +1,17 @@
+Note:- Before Starting the Replication (PCR), need License key for all 4 nodes.
+
+### Adding License to all Node in all the Regions[Mumbai & Singapore]
+For License register with [cockroach](https://www.cockroachlabs.com/) and get keys
+```
+SET CLUSTER SETTING enterprise.license = 'crl-0-EODQ6NQGGAQyEH0vajlANUndqwNHF/AFHQ86EJOHfsC09EVVuYk4nCukzvE';
+SHOW CLUSTER SETTING enterprise.license;
+```
+### Adding organization Node all the Clusters
+```
+SHOW CLUSTER SETTING cluster.organization;
+SET CLUSTER SETTING cluster.organization = 'djs-colo';
+```
+
 ### Step 1: Generate Node Cert on Node 4
 
 SSH into Node 4 and run:
