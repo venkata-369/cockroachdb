@@ -12,7 +12,7 @@ Based on our environment, here are the exact steps: [[Failback Steps_CockroachDB
 | Singapore | crdb-node8 (10.30.2.151), crdb-node9 | ⛔ Old Primary |
 
 ---
-## Why This Error Occurred
+#### Why This Error Occurred
 
 ```
 ERROR: tenant "main" does not exist
@@ -22,7 +22,7 @@ This is because **Singapore never had a `main` virtual cluster created on it**. 
 
 ---
 
-## Verify What Singapore Has
+### Verify What Singapore Has
 
 ```sql
 SHOW VIRTUAL CLUSTERS;
@@ -40,13 +40,13 @@ No `main` virtual cluster exists on Singapore. ✅ This confirms it.
 
 ---
 
-## Correct Failback Approach for Your Environment
+### Correct Failback Approach for Your Environment
 
 Since Singapore was the **original primary without a named virtual cluster**, the failback works differently. You need to **create** the `main` virtual cluster on Singapore via replication from Mumbai:
 
 ---
 
-## Step 1: Enable Rangefeeds on Mumbai System Virtual Cluster
+### Step 1: Enable Rangefeeds on Mumbai System Virtual Cluster
 
 On **crdb-node3** (Mumbai):
 
@@ -62,7 +62,7 @@ SET CLUSTER SETTING kv.rangefeed.enabled = true;
 
 ---
 
-## Step 2: Generate Encoded Connection String for Mumbai
+### Step 2: Generate Encoded Connection String for Mumbai
 
 On **crdb-node8** (Singapore):
 
@@ -79,7 +79,7 @@ replicator:repl123@10.10.3.10:26257?options=-ccluster%3Dsystem&sslinline=true&ss
 ```
 ---
 
-## Step 3: Create `main` Virtual Cluster on Singapore via Replication
+### Step 3: Create `main` Virtual Cluster on Singapore via Replication
 
 On **crdb-node8** (Singapore) system virtual cluster:
 Connect to Singapore system virtual cluster:
@@ -118,7 +118,7 @@ Time: 625ms total (execution 625ms / network 0ms)
 ```
 ---
 
-## Step 4: Monitor Replication on Singapore
+### Step 4: Monitor Replication on Singapore
 
 ```sql
 SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
@@ -133,7 +133,7 @@ replication_lag = few seconds
 
 ---
 
-## Step 5: Complete Failback on Singapore
+### Step 5: Complete Failback on Singapore
 
 ```sql
 ALTER VIRTUAL CLUSTER main COMPLETE REPLICATION TO LATEST;
@@ -141,7 +141,7 @@ ALTER VIRTUAL CLUSTER main COMPLETE REPLICATION TO LATEST;
 
 ---
 
-## Step 6: Bring Singapore Online
+### Step 6: Bring Singapore Online
 
 ```sql
 ALTER VIRTUAL CLUSTER main START SERVICE SHARED;
@@ -149,7 +149,7 @@ ALTER VIRTUAL CLUSTER main START SERVICE SHARED;
 
 ---
 
-## Step 7: Verify Singapore is Primary Again
+### Step 7: Verify Singapore is Primary Again
 
 ```sql
 SHOW VIRTUAL CLUSTERS;
@@ -168,7 +168,7 @@ Set Singapore as Default
 SET CLUSTER SETTING server.controller.default_target_cluster = 'main';
 ```
 ---
-## Failback Flow Summary
+### Failback Flow Summary
 
 ```
 Mumbai (Current Primary)          Singapore (Becoming Primary)
@@ -181,11 +181,11 @@ Mumbai (Current Primary)          Singapore (Becoming Primary)
         X (becomes standby)               ✅ Primary again
 ```
 
-[[Failback Steps](https://www.cockroachlabs.com/docs/v25.2/failover-replication#fail-back-to-the-original-primary-cluster)]
+[[Failback Steps_CockroachDB Documents](https://www.cockroachlabs.com/docs/v25.2/failover-replication#fail-back-to-the-original-primary-cluster)]
 
 ---
 
-#### ⚠️ Important Notes
+#### Important Notes
 
 | Item | Detail |
 |---|---|
