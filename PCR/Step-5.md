@@ -41,19 +41,17 @@ The `ALTER VIRTUAL CLUSTER main COMPLETE REPLICATION TO LATEST` command must be 
 
 ---
 
-## Step 1: Connect to Mumbai SQL Shell
+### Step 1: Connect to Mumbai SQL Shell
 
 On **crdb-node3** (Mumbai):
 
 ```bash
-cockroach sql \
-  --certs-dir=/home/ubuntu/certs \
-  --host=10.10.3.10
+cockroach sql --certs-dir=/home/ubuntu/certs --host=10.10.3.10
 ```
 
 ---
 
-## Step 2: Initiate Failover on Mumbai
+### Step 2: Initiate Failover on Mumbai
 
 ```sql
 ALTER VIRTUAL CLUSTER main COMPLETE REPLICATION TO LATEST;
@@ -67,11 +65,11 @@ Expected output:
 (1 row)
 ```
 
-[[Failover Steps](https://www.cockroachlabs.com/docs/v25.2/failover-replication#failover)]
+[[Failover Steps CockroachDB Documentation](https://www.cockroachlabs.com/docs/v25.2/failover-replication#failover)]
 
 ---
 
-## Step 3: Monitor Failover Status
+### Step 3: Monitor Failover Status
 
 ```sql
 SHOW VIRTUAL CLUSTER main WITH REPLICATION STATUS;
@@ -87,7 +85,7 @@ Watch for `status` to change:
 
 ---
 
-## Step 4: Start Service on Mumbai After Failover
+### Step 4: Start Service on Mumbai After Failover
 
 Once status shows `ready`, run: [[ALTER VIRTUAL CLUSTER](https://www.cockroachlabs.com/docs/v25.2/alter-virtual-cluster#examples)]
 
@@ -97,7 +95,7 @@ ALTER VIRTUAL CLUSTER main START SERVICE SHARED;
 
 ---
 
-## Step 5: Verify Mumbai is Now Primary
+### Step 5: Verify Mumbai is Now Primary
 
 ```sql
 SHOW VIRTUAL CLUSTERS;
@@ -113,7 +111,7 @@ Expected:
 
 ---
 
-## ⚠️ Key Points
+### Key Points
 
 | Item | Detail |
 |---|---|
