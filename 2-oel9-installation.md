@@ -127,7 +127,7 @@ cockroach node status --insecure
 ### Step 20: Open the Web UI
 
 ```
-http://<server-ip>:8080
+http://<public_ip>:8080
 ```
 
 ---
