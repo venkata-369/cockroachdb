@@ -218,27 +218,6 @@
 * Rollback Strategy
 * Migration Best Practices
 ---
-## Advanced 
-### Module 13: Automation & Kubernetes
-
-* Containers
-   - Docker / Podman Desktop
-
-### Kubernetes
-
-* StatefulSets
-* Persistent Volumes
-* Storage Classes
-* Scaling
-* Rolling Updates
-
-### Infrastructure as Code & CI/CD
-
-* Terraform
-* Ansible (Overview)
-* GitHub Actions
-* Kubernetes Deployment Automation
-
 
  
 
