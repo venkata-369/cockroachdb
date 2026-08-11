@@ -11,7 +11,7 @@ Every step succeeded perfectly: [[Failover Steps](https://www.cockroachlabs.com/
 
 ---
 
-## ⏭️ Step 6: Make Mumbai the Default Cluster
+### ⏭️ Step 6: Make Mumbai the Default Cluster
 
 Run this on **crdb-node3** (Mumbai): [[Failover Steps](https://www.cockroachlabs.com/docs/v25.2/failover-replication#step-2-complete-the-failover)]
 
@@ -33,7 +33,7 @@ SET CLUSTER SETTING server.controller.default_target_cluster='main';
 
 ---
 
-#### ⚠️ Important Notes
+#### Important Notes
 
 - Singapore and Mumbai are now **completely independent** clusters
 - You need to **redirect application traffic** to Mumbai using your load balancer or DNS
