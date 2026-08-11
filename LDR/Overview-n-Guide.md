@@ -82,71 +82,8 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 
 ### Bidirectional LDR 
 
-```
-                        ┌─────────────────────────────────┐
-                        │         LDR SETUP               │
-                        └────────────────┬────────────────┘
-                                         │
-                    ┌────────────────────┴────────────────────┐
-                    │                                         │
-          ┌─────────▼─────────┐                   ┌──────────▼────────┐
-          │   CLUSTER A        │                   │   CLUSTER B       │
-          │   (Mumbai)         │                   │   (Singapore)     │
-          │   2 Nodes          │                   │   2 Nodes         │
-          └─────────┬─────────┘                   └──────────┬────────┘
-                    │                                         │
-          ┌─────────▼─────────┐                   ┌──────────▼────────┐
-          │  STEP 1: Prepare  │                   │  STEP 1: Prepare  │
-          │  - Enable         │                   │  - Enable         │
-          │    rangefeed      │                   │    rangefeed      │
-          │  - Create user    │                   │  - Create user    │
-          │  - Grant          │                   │  - Grant          │
-          │    REPLICATION    │                   │    REPLICATION    │
-          │    SOURCE priv    │                   │    SOURCE priv    │
-          └─────────┬─────────┘                   └──────────┬────────┘
-                    │                                         │
-                    │         ┌───────────────────┐          │
-                    │         │     STEP 2:        │          │
-                    └────────►│  External          │◄─────────┘
-                              │  Connections       │
-                              │  (Each cluster     │
-                              │  stores the other  │
-                              │  cluster's URI)    │
-                              └────────┬──────────┘
-                                       │
-                              ┌────────▼──────────┐
-                              │     STEP 3:        │
-                              │   Start LDR        │
-                              │   (from destination│
-                              │    cluster)        │
-                              └────────┬──────────┘
-                                       │
-                    ┌──────────────────┴──────────────────┐
-                    │                                     │
-          ┌─────────▼──────────┐             ┌───────────▼────────┐
-          │   LDR STREAM 1     │             │   LDR STREAM 2     │
-          │  (Unidirectional)  │             │  (Reverse Stream)  │
-          │  Mumbai ──────────►│             │◄────────── Singapore│
-          │  (Source)  (Dest)  │             │  (Dest)    (Source)│
-          └─────────┬──────────┘             └───────────┬────────┘
-                    │                                     │
-                    └──────────────┬──────────────────────┘
-                                   │
-                          ┌────────▼──────────┐
-                          │     STEP 4:        │
-                          │  Monitor via       │
-                          │  DB Console        │
-                          │  (Both Clusters)   │
-                          └────────┬──────────┘
-                                   │
-                          ┌────────▼──────────┐
-                          │  BIDIRECTIONAL LDR │
-                          │  ACTIVE ✅         │
-                          │  Mumbai ◄─────────►│
-                          │  Singapore         │
-                          │  (Both Active)     │
-                          └───────────────────┘
-```
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/d3b9beb9-5de3-4bdc-8ce4-ee3db4d8a4af" />
+
 
 ---
 
