@@ -1,11 +1,3 @@
-### ✅ Both Singapore Service Files !
-
-| Node | IP | Locality | Status |
-|---|---|---|---|
-| crdb-node8 | 10.30.2.151 | ap-southeast-1a | ✅ Done |
-| crdb-node9 | 10.30.2.198 | ap-southeast-1b | ✅ Done |
-
----
 
 ## ⏭️ Next: Update systemd Service File on Both Singapore Nodes
 
