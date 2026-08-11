@@ -357,4 +357,11 @@ Both nodes are live and healthy: [[cockroach node status CockroachDB Documention
 | Mumbai (Standby) | ap-south-1 | crdb-node3, crdb-node4 | ✅ Ready |
 
 
+### ⏭️ Next: Set Up PCR (Physical Cluster Replication)
 
+Now that both clusters are running, the next steps are:
+
+1. **Exchange CA certificates** between Singapore and Mumbai clusters
+2. **Generate replication user** on Singapore (primary)
+3. **Generate encoded connection string** using `cockroach encode-uri`
+4. **Start replication** from Mumbai (standby) using `START VIRTUAL CLUSTER`
