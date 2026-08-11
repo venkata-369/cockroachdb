@@ -1,6 +1,6 @@
-# 1. Introduction to CockroachDB 
+## 1. Introduction to CockroachDB 
 
-## What is CockroachDB?
+### What is CockroachDB?
 
 CockroachDB is a **cloud-native distributed SQL database** designed to provide:
 
@@ -19,7 +19,7 @@ Unlike traditional databases, CockroachDB distributes data automatically across 
 
 ---
 
-## Why is it called CockroachDB?
+### Why is it called CockroachDB?
 
 Cockroaches are known for surviving disasters.
 
@@ -35,7 +35,7 @@ without application downtime.
 
 ---
 
-## Why do we need Distributed SQL?
+### Why do we need Distributed SQL?
 
 Imagine an e-commerce company.
 
@@ -80,7 +80,7 @@ Now the database can continue operating even if one node fails.
 
 ---
 
-## Traditional Database Problems
+### Traditional Database Problems
 
 Example: PostgreSQL
 
@@ -105,7 +105,7 @@ If the Primary server crashes:
 
 ---
 
-## CockroachDB Solution
+### CockroachDB Solution
 
 ```
 Application
@@ -130,7 +130,7 @@ Advantages:
 
 ---
 
-## Real-world Example
+### Real-world Example
 
 Suppose Amazon has users in:
 
@@ -274,7 +274,7 @@ This prevents stale reads and inconsistent data.
 
 ---
 
-## SQL Compatibility
+### SQL Compatibility
 
 CockroachDB supports familiar SQL operations:
 
@@ -299,7 +299,7 @@ Anyone familiar with PostgreSQL can start working with CockroachDB quickly.
 
 ---
 
-## Use Cases - Industries Using CockroachDB
+### Use Cases - Industries Using CockroachDB
 
 * Banking & FinTech
   - **Core Banking Systems:** Store customer accounts, balances, and transactions with strong ACID consistency across multiple regions.
@@ -319,7 +319,7 @@ These industries require databases that stay available 24×7.
 
 ---
 
-## Why Companies Choose CockroachDB
+### Why Companies Choose CockroachDB
 
 * 99.99%+ availability
 * Automatic failover
