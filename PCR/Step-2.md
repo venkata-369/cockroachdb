@@ -1,8 +1,4 @@
-Great! Now that the CA files are on Node 4, here is what to do next:
-
----
-
-## Step 1: Generate Node Cert on Node 4
+### Step 1: Generate Node Cert on Node 4
 
 SSH into Node 4 and run:
 
@@ -90,7 +86,7 @@ node.key
 
 ---
 
-## Step 2: Copy Certs to `/var/lib/cockroach/certs/` on Node 4
+### Step 2: Copy Certs to `/var/lib/cockroach/certs/` on Node 4
 
 ```bash
 sudo mkdir -p /var/lib/cockroach/certs
@@ -107,7 +103,7 @@ sudo chmod 700 /var/lib/cockroach/certs
 
 ---
 
-## Step 3: Create Root Client Certificate (on Node 3)
+### Step 3: Create Root Client Certificate (on Node 3)
 
 Go back to Node 3 and run:
 
@@ -122,7 +118,7 @@ Yes, the certificates look **correct**! Here is what to confirm:
 
 ---
 
-## ✅ Certificate Verification
+### ✅ Certificate Verification
 
 | Item | Node 3 | Node 4 | Status |
 |---|---|---|---|
@@ -135,7 +131,7 @@ Yes, the certificates look **correct**! Here is what to confirm:
 
 ---
 
-## ✅ What This Confirms
+### ✅ What This Confirms
 
 - Both nodes have the **same CA** (`ca.crt`) — required for nodes to trust each other
 - Each node has its **own unique node cert** with the correct IP address
@@ -144,10 +140,7 @@ Yes, the certificates look **correct**! Here is what to confirm:
 
 ---
 
-ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
----
-
-## Step 4: Update Service Files on BOTH Mumbai Nodes
+### Step 4: Update /etc/default/cockroach Files on BOTH Mumbai Nodes
 
 Run on **Each Mumbai node**:
 
@@ -313,8 +306,6 @@ ubuntu@crdb-node3:~$ cockroach node status \
 
 ---
 
-## What's Next After Mumbai
-
 ### ✅ Mumbai Cluster is Fully Operational!
 
 Both nodes are live and healthy:
@@ -326,7 +317,7 @@ Both nodes are live and healthy:
 
 ---
 
-### ⏭️ What's Next — Singapore Cluster Setup
+### ⏭️ Then What's Next — Singapore Cluster Setup
 
 Now you need to set up the **Singapore cluster** (primary cluster for PCR). Here is the overall plan: [[PCR Setup](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication)]
 
@@ -341,7 +332,7 @@ Now you need to set up the **Singapore cluster** (primary cluster for PCR). Here
 
 ---
 
-## PCR Architecture Reminder
+#### PCR Architecture Quick Look
 
 | Cluster | Region | Role |
 |---|---|---|
