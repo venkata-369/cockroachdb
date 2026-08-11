@@ -1,4 +1,4 @@
-## Singapore Cluster Certificate Setup
+### Singapore Cluster Certificate Setup
 
 ### Step 1: SSH into Singapore Node 1 (10.30.2.151)
 
@@ -215,7 +215,7 @@ Certificate directory: /var/lib/cockroach/certs
 
 ---
 
-## ✅ Singapore Cluster Certificate Status
+### ✅ Singapore Cluster Certificate Status
 
 | Node | IP | Certs in `/var/lib/cockroach/certs` |
 |---|---|---|
@@ -224,7 +224,7 @@ Certificate directory: /var/lib/cockroach/certs
 
 ---
 
-### ⏭️ Next Steps: Update Service Files on Both Singapore Nodes
+### ⏭️ Next Steps: Update /etc/default/cockroach Files on Both Singapore Nodes
 
 ### On Singapore Node 1 (crdb-node8 — 10.30.2.151):
 
