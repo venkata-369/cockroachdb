@@ -74,3 +74,112 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 ---
 
 > **Note:** LDR replicates at the **table level**, giving you flexibility to choose which specific tables to replicate — unlike PCR which replicates the entire cluster. [[LDR Blog](https://www.cockroachlabs.com/blog/logical-data-replication/#How-does-LDR-help-users-accomplish-these-goals?)]
+
+---
+### LDR Flow Structure — 2 Regional Clusters (Mumbai ↔ Singapore)
+
+### Bidirectional LDR 
+
+```
+                        ┌─────────────────────────────────┐
+                        │         LDR SETUP               │
+                        └────────────────┬────────────────┘
+                                         │
+                    ┌────────────────────┴────────────────────┐
+                    │                                         │
+          ┌─────────▼─────────┐                   ┌──────────▼────────┐
+          │   CLUSTER A        │                   │   CLUSTER B       │
+          │   (Mumbai)         │                   │   (Singapore)     │
+          │   2 Nodes          │                   │   2 Nodes         │
+          └─────────┬─────────┘                   └──────────┬────────┘
+                    │                                         │
+          ┌─────────▼─────────┐                   ┌──────────▼────────┐
+          │  STEP 1: Prepare  │                   │  STEP 1: Prepare  │
+          │  - Enable         │                   │  - Enable         │
+          │    rangefeed      │                   │    rangefeed      │
+          │  - Create user    │                   │  - Create user    │
+          │  - Grant          │                   │  - Grant          │
+          │    REPLICATION    │                   │    REPLICATION    │
+          │    SOURCE priv    │                   │    SOURCE priv    │
+          └─────────┬─────────┘                   └──────────┬────────┘
+                    │                                         │
+                    │         ┌───────────────────┐          │
+                    │         │     STEP 2:        │          │
+                    └────────►│  External          │◄─────────┘
+                              │  Connections       │
+                              │  (Each cluster     │
+                              │  stores the other  │
+                              │  cluster's URI)    │
+                              └────────┬──────────┘
+                                       │
+                              ┌────────▼──────────┐
+                              │     STEP 3:        │
+                              │   Start LDR        │
+                              │   (from destination│
+                              │    cluster)        │
+                              └────────┬──────────┘
+                                       │
+                    ┌──────────────────┴──────────────────┐
+                    │                                     │
+          ┌─────────▼──────────┐             ┌───────────▼────────┐
+          │   LDR STREAM 1     │             │   LDR STREAM 2     │
+          │  (Unidirectional)  │             │  (Reverse Stream)  │
+          │  Mumbai ──────────►│             │◄────────── Singapore│
+          │  (Source)  (Dest)  │             │  (Dest)    (Source)│
+          └─────────┬──────────┘             └───────────┬────────┘
+                    │                                     │
+                    └──────────────┬──────────────────────┘
+                                   │
+                          ┌────────▼──────────┐
+                          │     STEP 4:        │
+                          │  Monitor via       │
+                          │  DB Console        │
+                          │  (Both Clusters)   │
+                          └────────┬──────────┘
+                                   │
+                          ┌────────▼──────────┐
+                          │  BIDIRECTIONAL LDR │
+                          │  ACTIVE ✅         │
+                          │  Mumbai ◄─────────►│
+                          │  Singapore         │
+                          │  (Both Active)     │
+                          └───────────────────┘
+```
+
+---
+
+### SQL Syntax Flow
+
+```
+                    ┌──────────────────────────────┐
+                    │  Choose Your LDR Syntax      │
+                    └──────────────┬───────────────┘
+                                   │
+               ┌───────────────────┴──────────────────┐
+               │                                      │
+    ┌──────────▼───────────┐              ┌───────────▼──────────┐
+    │ CREATE LOGICALLY     │              │ CREATE LOGICAL        │
+    │ REPLICATED           │              │ REPLICATION STREAM    │
+    │                      │              │                       │
+    │ ✅ Auto creates table │            │ ✅ Table with         │
+    │ ✅ Fast initial scan  │            │    user-defined types │
+    │ ✅ Uni or Bidirect.   │            │ ✅ Manual setup       │
+    │ ❌ No user-defined    │            │ ✅ Uni or Bidirect.   │
+    │    types allowed      │             │ ⚠️ Pre-create table   │
+    └──────────────────────┘              │   with matching schema│
+                                          └───────────────────────┘
+```
+
+---
+
+#### Key Points
+
+| Component | Mumbai (Cluster A) | Singapore (Cluster B) |
+|---|---|---|
+| **Role** | Source & Destination | Source & Destination |
+| **Nodes** | 2 Nodes | 2 Nodes |
+| **Traffic** | Active ✅ | Active ✅ |
+| **Rangefeed** | Enabled ✅ | Enabled ✅ |
+| **Replication** | Sends & Receives | Sends & Receives |
+
+[[LDR Setup_CockroachDB Documentation](https://www.cockroachlabs.com/docs/stable/set-up-logical-data-replication)] [[Before You Begin](https://www.cockroachlabs.com/docs/stable/set-up-logical-data-replication#before-you-begin)]
