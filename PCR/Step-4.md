@@ -11,7 +11,7 @@
 
 ### Step 1: Exchange CA Certificates Between Clusters
 
-PCR requires each cluster to trust the other's CA certificate. [[PCR Setup](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#step-3-manage-cluster-certificates-and-generate-connection-strings)]
+PCR requires each cluster to trust the other's CA certificate. [[PCR Setup CockroachDB Documentation](https://www.cockroachlabs.com/docs/v25.2/set-up-physical-cluster-replication#step-3-manage-cluster-certificates-and-generate-connection-strings)]
 
 ### Download Singapore CA to your local machine:
 
