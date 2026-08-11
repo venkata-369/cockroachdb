@@ -1,4 +1,4 @@
-### Test: Create User, Database, Table on Your Environment
+### Test: Create User, Database, Table on Our Environment
 
 Based on our setup, here is how to test on **Mumbai (now Primary)**: [[SQL Statements_CockroachDB Documentation](https://www.cockroachlabs.com/docs/stable/secure-a-cluster#step-3-use-the-built-in-sql-client)]
 
@@ -36,7 +36,7 @@ Expected:
 
 ---
 
-## Step 3: Create a Database
+### Step 3: Create a Database
 
 ```sql
 CREATE DATABASE djs_appdb;
@@ -60,7 +60,7 @@ Expected:
 
 ---
 
-## Step 4: Grant Privileges to User
+### Step 4: Grant Privileges to User
 
 ```sql
 GRANT ALL ON DATABASE djs_appdb TO appuser;
@@ -68,7 +68,7 @@ GRANT ALL ON DATABASE djs_appdb TO appuser;
 
 ---
 
-## Step 5: Create a Table
+### Step 5: Create a Table
 
 ```sql
 CREATE TABLE djs_appdb.accounts (
@@ -93,7 +93,7 @@ Expected:
 
 ---
 
-## Step 6: Insert Data
+### Step 6: Insert Data
 
 ```sql
 INSERT INTO djs_appdb.accounts VALUES
@@ -103,7 +103,7 @@ INSERT INTO djs_appdb.accounts VALUES
 
 ---
 
-## Step 7: Query Data
+### Step 7: Query Data
 
 ```sql
 SELECT * FROM djs_appdb.accounts;
@@ -113,13 +113,13 @@ Expected:
 ```
   id |   name   | balance
 -----+----------+----------
-   1 | Venkat   | 5000.00
-   2 | DJS Corp | 99999.99
+   1 | Venkat   | 15000.00
+   2 | Kishore  | 99999.99
 ```
 
 ---
 
-## Step 8: Test as appuser
+### Step 8: Test as appuser
 
 Exit and reconnect as `appuser`:
 
@@ -137,7 +137,7 @@ SELECT * FROM djs_appdb.accounts;
 
 ---
 
-### ✅ Test Checklist
+#### ✅ Test Checklist
 
 | Test | Command | Status |
 |---|---|---|
@@ -151,13 +151,13 @@ SELECT * FROM djs_appdb.accounts;
 Share the output after each step!
 
 ---
-## ✅ This is Expected Behavior — Failover Already Completed!
+### ✅ This is Expected Behavior — Failover Already Completed!
 
-The reason Singapore does not have `djs_appdb` is because **you already completed the failover** from Singapore → Mumbai earlier. [[Failover Steps](https://www.cockroachlabs.com/docs/v25.2/failover-replication#step-2-complete-the-failover)]
+The reason Singapore does not have `djs_appdb` is because **you already completed the failover** from Singapore → Mumbai earlier. [[Failover Steps_CockroachDB Documentation](https://www.cockroachlabs.com/docs/v25.2/failover-replication#step-2-complete-the-failover)]
 
 ---
 
-## What Happened in Your Environment
+### What Happened in Your Environment
 
 | Event | Result |
 |---|---|
@@ -219,7 +219,7 @@ Singapore (Primary)          Mumbai (Standby → Primary)
 
 ---
 
-## Key Point
+### High Level Points
 
 After failover:
 - **Mumbai** is the **new primary** — all new writes go here ✅
@@ -228,14 +228,12 @@ After failover:
 
 ---
 
-## Verify This on Singapore
+### Verify This on Singapore
 
 Connect to Singapore and check — it only has data up to the **failover timestamp**:
 
 ```bash
-cockroach sql \
-  --certs-dir=/home/ubuntu/certs \
-  --host=10.30.2.151
+cockroach sql --certs-dir=/home/ubuntu/certs --host=10.30.2.151
 ```
 
 ```sql
