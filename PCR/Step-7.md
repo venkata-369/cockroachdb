@@ -1,6 +1,6 @@
-## PCR Tree Structure for Your Environment
+### PCR  Structure for Our Environment
 
-Based on what we set up, here is your exact tree structure: [[PCR Technical Overview](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-technical-overview)]
+Based on what we set up, here is your exact tree structure: [[PCR Technical Overview_CockroachDB Documentation](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-technical-overview)]
 
 ---
 
@@ -33,14 +33,7 @@ CockroachDB Mumbai Cluster (Standby)
 ```
 
 ---
-
-## Visual Diagram
-
-![](https://www.cockroachlabs.com/docs/images/v24.2/physical-rep-to.png)
-
----
-
-## What Each Component Does
+### What Each Component Does
 
 | Component | Cluster | Role |
 |---|---|---|
@@ -51,7 +44,7 @@ CockroachDB Mumbai Cluster (Standby)
 
 ---
 
-## Key Points
+### Key Points
 
 - The **system virtual cluster** manages the cluster's control plane and the replication of data [[PCR Technical Overview](https://www.cockroachlabs.com/docs/v25.2/physical-cluster-replication-technical-overview)]
 - The **main virtual cluster** manages the data plane — user data and application workloads live here
@@ -59,13 +52,13 @@ CockroachDB Mumbai Cluster (Standby)
 - After failover, `main` on Mumbai becomes `service_mode = shared` meaning it is **ready to serve traffic** ✅
 
 ---
-## Virtual Cluster for Application Connectivity
+### Virtual Cluster for Application Connectivity
 
 The tree structure you saw represents a **named virtual cluster** (like `djs-ams-appconnet`) instead of the default `main`. This is how applications connect to a specific virtual cluster. [[CREATE VIRTUAL CLUSTER](https://www.cockroachlabs.com/docs/stable/create-virtual-cluster)]
 
 ---
 
-## How to Create a Custom Named Virtual Cluster
+### How to Create a Custom Named Virtual Cluster
 
 On **Singapore (Primary)** system virtual cluster:
 
@@ -83,7 +76,7 @@ CREATE VIRTUAL CLUSTER djs-ams-appconnet
 
 ---
 
-## Start Service on the Virtual Cluster
+### Start Service on the Virtual Cluster
 
 ```sql
 ALTER VIRTUAL CLUSTER djs-ams-appconnet START SERVICE SHARED;
@@ -105,7 +98,7 @@ Expected:
 
 ---
 
-## Set as Default Cluster for Applications
+### Set as Default Cluster for Applications
 
 ```sql
 SET CLUSTER SETTING server.controller.default_target_cluster = 'djs-ams-appconnet';
@@ -115,7 +108,7 @@ SET CLUSTER SETTING server.controller.default_target_cluster = 'djs-ams-appconne
 
 ---
 
-### How Applications Connect
+#### How Applications Connect
 
 #### Option 1: Default Connection (after setting default_target_cluster)
 
@@ -131,7 +124,7 @@ postgresql://user:password@10.30.2.151:26257/defaultdb?options=-ccluster=djs-ams
 
 ---
 
-## How to Test Connection
+### How to Test Connection
 
 ```bash
 cockroach sql \
