@@ -103,8 +103,7 @@ Node3 : 10.10.10.13
 Generate the CA **only once**:
 
 ```bash
-cockroach cert create-ca \
-  --certs-dir=/var/lib/cockroach/certs \
+cockroach cert create-ca --certs-dir=/var/lib/cockroach/certs \
   --ca-key=/var/lib/cockroach/my-safe-directory/ca.key
 ```
 
@@ -137,7 +136,7 @@ All certificates are signed by the **same CA**.
    node1.key      node2.key       node3.key
         │               │               │
         ▼               ▼               ▼
-     Node1          Node2          Node3
+       Node1          Node2          Node3
 ```
 
 After generating the certificates:
