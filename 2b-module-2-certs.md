@@ -6,7 +6,7 @@ Think of them as identity cards and security keys that allow CockroachDB nodes a
 
 ### In a secure CockroachDB deployment, there is **only one Certificate Authority (CA)** for the entire cluster.
 
-### Correct Approach (Recommended) 🟢
+### CockroachDB Support (Recommended) 🟢
 
 Generate **one** CA on a secure machine (or on Node1 for a lab), then use that **same `ca.key`** to sign the certificates for all nodes.
 
