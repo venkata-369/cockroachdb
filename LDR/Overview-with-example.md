@@ -327,5 +327,5 @@ Just remember these **4 steps**:
 | **3. Start LDR** | Create/start replication streams | Start sending changes                    |
 | **4. Monitor**   | DB Console/status                | Check whether replication is healthy     |
 
-### One-line explanation for your team
+
 
