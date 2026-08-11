@@ -46,7 +46,7 @@ Application
 
       |
 
-   MySQL Server
+MySQL Server
 ```
 
 This works well for a few thousand users.
