@@ -1,12 +1,12 @@
 ### Logical Data Replication (LDR) — Overview & Guide
 
-## What is LDR?
+### What is LDR?
 
 **Logical Data Replication (LDR)** continuously replicates tables between an active *source* CockroachDB cluster and an active *destination* CockroachDB cluster. Both clusters can receive application reads and writes simultaneously (active-active setup), providing eventual consistency in the replicating tables. [[LDR Overview](https://www.cockroachlabs.com/docs/stable/logical-data-replication-overview)]
 
 ---
 
-## Your Setup: Mumbai (Cluster A) ↔ Singapore (Cluster B)
+### Your Setup: Mumbai (Cluster A) ↔ Singapore (Cluster B)
 
 - **Cluster A** — 2 nodes in Mumbai
 - **Cluster B** — 2 nodes in Singapore
@@ -16,7 +16,7 @@
 
 ---
 
-## Use Cases
+### Use Cases
 
 | Setup | Description |
 |---|---|
@@ -28,7 +28,7 @@
 
 ---
 
-## Prerequisites
+### Prerequisites
 
 Before setting up LDR between your Mumbai and Singapore clusters: [[LDR Setup](https://www.cockroachlabs.com/docs/v24.3/set-up-logical-data-replication#before-you-begin)]
 
@@ -41,7 +41,7 @@ Before setting up LDR between your Mumbai and Singapore clusters: [[LDR Setup](h
 
 ---
 
-## How to Set Up LDR
+### How to Set Up LDR
 
 High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-logical-data-replication)]
 
@@ -54,7 +54,7 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 
 ---
 
-## ✅ Do's
+### ✅ Do's
 
 - Use **fully qualified table names** in your LDR SQL statements.
 - Use **bidirectional LDR** for active-active high availability between Mumbai and Singapore.
@@ -63,7 +63,7 @@ High-level steps: [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-
 - Use **one table per LDR job** if you need table-level observability.
 - Ensure **similar cluster sizing** between Mumbai and Singapore clusters. [[LDR Setup](https://www.cockroachlabs.com/docs/v24.3/set-up-logical-data-replication#before-you-begin)]
 
-## ❌ Don'ts
+### ❌ Don'ts
 
 - **Don't use LDR on CockroachDB Cloud** — it is only supported on self-hosted clusters. [[LDR Overview](https://www.cockroachlabs.com/docs/stable/logical-data-replication-overview)]
 - **Don't use `CREATE LOGICALLY REPLICATED`** if your table contains **user-defined types** — use `CREATE LOGICAL REPLICATION STREAM` instead. [[LDR Setup](https://www.cockroachlabs.com/docs/stable/set-up-logical-data-replication)]
