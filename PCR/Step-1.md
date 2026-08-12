@@ -50,7 +50,7 @@ scp -i ~/.ssh/id_rsa \
 
 ---
 
-### Step 3: Verify Files on Node 4
+### Step 3: Verify Files on Node 2
 
 ```bash
 ssh -i ~/.ssh/id_rsa ubuntu@<Node2-Public-IP> "ls -lrt /home/ubuntu/certs/ && ls -lrt /home/ubuntu/my-safe-directory/"
@@ -99,7 +99,7 @@ cockroach cert create-node \
 | Delete temp files after | Remove `~/ca.crt` and `~/ca.key` from local machine after copying |
 ---
 
-### Fix: Node 3 Certificate
+### Fix: Node 1 Certificate
 
 ```bash
 # Verify ca.crt and ca.key are present
