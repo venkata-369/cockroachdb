@@ -6,7 +6,7 @@ You need the **Communication Between Node 3 to Node 4 using public IP**. Check y
 
 Node 1
 
-````
+```
 mkdir -p certs
 mkdir -p my-safe-directory
 cockroach cert create-ca --certs-dir=/home/ubuntu/certs --ca-key=/home/ubuntu/my-safe-directory/ca.key
