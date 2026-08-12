@@ -4,7 +4,22 @@ You need the **Communication Between Node 3 to Node 4 using public IP**. Check y
 
 ### ca.crt file should be unique in all the nodes to Ensure Secure 
 
-### Step 1: Download ca.crt and ca.key from Node 3
+Node 1
+````
+mkdir -p certs
+mkdir -p my-safe-directory
+cockroach cert create-ca --certs-dir=/home/ubuntu/certs --ca-key=/home/ubuntu/my-safe-directory/ca.key
+```
+WorkLog
+```
+ubuntu@crdb-node1:~$ mkdir -p certs
+ubuntu@crdb-node1:~$ mkdir -p my-safe-directory
+ubuntu@crdb-node1:~$ cockroach cert create-ca \
+  --certs-dir=/home/ubuntu/certs \
+  --ca-key=/home/ubuntu/my-safe-directory/ca.key
+```
+
+### Step 1: Download ca.crt and ca.key from Node 1
 
 ```bash
 scp -i ~/.ssh/id_rsa \
@@ -16,7 +31,7 @@ scp -i ~/.ssh/id_rsa \
   ~/ca.key
 ```
 
-### Step 2: Upload ca.crt and ca.key to Node 4
+### Step 2: Upload ca.crt and ca.key to Node 2
 
 ```bash
 # Replace <Node4-Public-IP> with actual public IP of crdb-node4
@@ -26,7 +41,7 @@ scp -i ~/.ssh/id_rsa \
 
 scp -i ~/.ssh/id_rsa \
   ~/ca.key \
-  ubuntu@<Node4-Public-IP>:/home/ubuntu/my-safe-directory/
+  ubuntu@<Node2-Public-IP>:/home/ubuntu/my-safe-directory/
 ```
 
 [[AWS Certificates](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-aws#step-5-generate-certificates)]
@@ -36,7 +51,7 @@ scp -i ~/.ssh/id_rsa \
 ### Step 3: Verify Files on Node 4
 
 ```bash
-ssh -i ~/.ssh/id_rsa ubuntu@<Node4-Public-IP> "ls -lrt /home/ubuntu/certs/ && ls -lrt /home/ubuntu/my-safe-directory/"
+ssh -i ~/.ssh/id_rsa ubuntu@<Node2-Public-IP> "ls -lrt /home/ubuntu/certs/ && ls -lrt /home/ubuntu/my-safe-directory/"
 ```
 
 You should see:
@@ -44,15 +59,23 @@ You should see:
 /home/ubuntu/certs/ca.crt
 /home/ubuntu/my-safe-directory/ca.key
 ```
-
 ---
+### Step 4: Generate Node Certs on Node 1
+```
+cockroach cert create-node \
+  10.10.1.10 \
+  localhost \
+  127.0.0.1 \
+  --certs-dir=/home/ubuntu/certs \
+  --ca-key=/home/ubuntu/my-safe-directory/ca.key
+```
 
-### Step 4: Generate Node Cert on Node 4
+### Step 4: Generate Node Certs on Node 2
 
-SSH into Node 4 and run:
+SSH into Node 2 and run:
 
 ```bash
-ssh -i ~/.ssh/id_rsa ubuntu@<Node4-Public-IP>
+ssh -i ~/.ssh/id_rsa ubuntu@<Node2-Public-IP>
 
 cockroach cert create-node \
   10.10.4.10 \
@@ -82,22 +105,12 @@ ls -lrt /home/ubuntu/certs/
 ls -lrt /home/ubuntu/my-safe-directory/
 ```
 
-Then regenerate:
 
-```bash
-cockroach cert create-node \
-  10.10.3.10 \
-  localhost \
-  127.0.0.1 \
-  --certs-dir=/home/ubuntu/certs \
-  --ca-key=/home/ubuntu/my-safe-directory/ca.key
-```
-
-[[Generate Certificates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
+[[Generate Certificates_CockroachDB Certificaates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
 
 ---
 
-## Verify Files
+## Verify Files on all nodes the cluster
 
 ```bash
 ls -lrt /home/ubuntu/certs/
@@ -112,7 +125,7 @@ node.key
 
 ---
 
-## Then Copy to `/var/lib/cockroach/certs/`
+### Then Copy to `/var/lib/cockroach/certs/`
 
 ```bash
 sudo cp /home/ubuntu/certs/ca.crt /var/lib/cockroach/certs/
@@ -126,7 +139,7 @@ sudo chmod 700 /var/lib/cockroach/certs
 
 ---
 
-## Verify Final State on Node 3
+### Verify Final State on Node 1
 
 ```bash
 sudo ls -lrt /var/lib/cockroach/certs/
@@ -145,8 +158,8 @@ node.key (owned by cockroach)
 
 | Issue | Detail |
 |---|---|
-| `node.crt` missing on Node 3 | Deleted earlier to create Node 4 cert — must regenerate with Node 3's IP |
-| Each node has unique cert | Node 3 cert uses `10.10.3.10`, Node 4 cert uses `10.10.4.10` |
+| `node.crt` missing on Node 3 | Deleted earlier to create Node 2 cert — must regenerate with Node 3's IP |
+| Each node has unique cert | Node 3 cert uses `10.10.1.10`, Node 2 cert uses `10.10.2.10` |
 | `ca.crt` is shared | Same `ca.crt` used across all Mumbai nodes |
 
 ```
@@ -154,11 +167,11 @@ sudo cockroach cert list --certs-dir=/var/lib/cockroach/certs
 ```
 Expected Output
 ```
-ubuntu@crdb-node3:~$ sudo cockroach cert list --certs-dir=/var/lib/cockroach/certs
+ubuntu@crdb-node2:~$ sudo cockroach cert list --certs-dir=/var/lib/cockroach/certs
 Certificate directory: /var/lib/cockroach/certs
   Usage | Certificate File | Key File |  Expires   |                   Notes                   | Error
 --------+------------------+----------+------------+-------------------------------------------+--------
   CA    | ca.crt           |          | 2036/08/15 | num certs: 1                              |
-  Node  | node.crt         | node.key | 2031/08/13 | addresses: localhost,10.10.3.10,127.0.0.1 |
+  Node  | node.crt         | node.key | 2031/08/13 | addresses: localhost,10.10.2.10,127.0.0.1 |
 (2 rows)
 ```
