@@ -1,3 +1,12 @@
+Note:- While working on AWS Cluster installation, we create a crdb_key, that you can download to your local ca certificate. that certificate you can copy in all the nodes. you find the below steps.
+
+#### Summary:-
+
+1, Any Node Create CA Certificate(Unique in all the nodes), already we created in AWS.
+2, Copy in all the nodes
+3, Create a Node Certificate on every Node
+4, Create a Client Certificate on every node to connect through SQL
+
 ### Copy ca.crt files Directly from Local Machine
 
 You need the **Communication Between Node 3 to Node 4 using public IP**. Check your AWS Console for it, then run these commands **from your local Git Bash**:
