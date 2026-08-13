@@ -181,10 +181,10 @@ EOF
 ```
 
 
-> ⚠️ Change `NODE_IP` and `LOCALITY` accordingly for Node 4.
+> ⚠️ Change `NODE_IP` and `LOCALITY` accordingly for Node 2.
 
 Update the systemd service on **each node**:
-### Node 3
+### Node 1
 ```
 sudo tee /etc/systemd/system/cockroach.service <<EOF
 [Unit]
@@ -217,7 +217,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### Node 4
+### Node 2
 ```bash
 sudo tee /etc/systemd/system/cockroach.service <<EOF
 [Unit]
@@ -285,26 +285,24 @@ You should see `Active: active (running)` on both nodes.
 
 ## Step 6: Initialize Mumbai Cluster
 
-Run **once only** from Node 3:
+Run **Once only** from Node 1:
 
 ```bash
-sudo cockroach init --certs-dir=/var/lib/cockroach/certs --host=10.10.3.10
+sudo cockroach init --certs-dir=/var/lib/cockroach/certs --host=10.10.1.10
 ```
 or
 ```
-cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.3.10
+cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.1.10
 ```
 
 Expected Output
 ```
-ubuntu@crdb-node3:~$ cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.3.10
+ubuntu@crdb-node3:~$ cockroach init --certs-dir=/home/ubuntu/certs --host=10.10.1.10
 Cluster successfully initialized
 ```
 List
 ```
-cockroach node status \
-  --certs-dir=/home/ubuntu/certs \
-  --host=10.10.3.10
+cockroach node status --certs-dir=/home/ubuntu/certs --host=10.10.1.10
 ```
 Expected Output
 ```
