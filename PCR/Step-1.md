@@ -9,7 +9,7 @@ Note:- While working on AWS Cluster installation, we create a crdb_key, that you
 
 ### Copy ca.crt files Directly from Local Machine
 
-You need the **Communication Between Node 3 to Node 4 using public IP**. Check your AWS Console for it, then run these commands **from your local Git Bash**:
+You need the **Communication Between Node 1 to Node 2 & 3 using public IP**. Check your AWS Console for it, then run these commands **from your local Git Bash**:
 
 ### ca.crt file should be unique in all the nodes to Ensure Secure 
 
@@ -42,13 +42,13 @@ scp -i ~/.ssh/id_rsa \
   ~/ca.key
 ```
 
-### Step 2: Upload ca.crt and ca.key to Node 2
+### Step 2: Upload ca.crt and ca.key to Node 2 and repeat in Node 3 using <Node3-Public-IP>
 
 ```bash
 # Replace <Node4-Public-IP> with actual public IP of crdb-node4
 scp -i ~/.ssh/id_rsa \
   ~/ca.crt \
-  ubuntu@<Node4-Public-IP>:/home/ubuntu/certs/
+  ubuntu@<Node2-Public-IP>:/home/ubuntu/certs/
 
 scp -i ~/.ssh/id_rsa \
   ~/ca.key \
@@ -81,7 +81,7 @@ cockroach cert create-node \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
 
-### Step 4: Generate Node Certs on Node 2
+### Step 4: Generate Node Certs on Node 2, repeat in Node 3
 
 SSH into Node 2 and run:
 
@@ -89,14 +89,14 @@ SSH into Node 2 and run:
 ssh -i ~/.ssh/id_rsa ubuntu@<Node2-Public-IP>
 
 cockroach cert create-node \
-  10.10.4.10 \
+  10.10.2.10 \
   localhost \
   127.0.0.1 \
   --certs-dir=/home/ubuntu/certs \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
 
-### Step 4: Generate Client Certs on Node 1 & Node 2 
+### Step 4: Generate Client Certs on Node 1 , Node 2 & Node 3
 
 ```
 Client Certificates On Every Node
@@ -144,7 +144,7 @@ node.key
 
 ---
 
-### Then Copy to `/var/lib/cockroach/certs/`
+### Then Copy to `/var/lib/cockroach/certs/` in all the 3 Nodes
 
 ```bash
 sudo cp /home/ubuntu/certs/ca.crt /var/lib/cockroach/certs/
@@ -173,13 +173,7 @@ node.key (owned by cockroach)
 
 ---
 
-#### ⚠️ Key Point
-
-| Issue | Detail |
-|---|---|
-| `node.crt` missing on Node 3 | Deleted earlier to create Node 2 cert — must regenerate with Node 3's IP |
-| Each node has unique cert | Node 3 cert uses `10.10.1.10`, Node 2 cert uses `10.10.2.10` |
-| `ca.crt` is shared | Same `ca.crt` used across all Mumbai nodes |
+#### List Out, Verify in all the 3 Nodes
 
 ```
 sudo cockroach cert list --certs-dir=/var/lib/cockroach/certs
