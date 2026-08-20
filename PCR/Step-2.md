@@ -12,158 +12,29 @@ SHOW CLUSTER SETTING cluster.organization;
 SET CLUSTER SETTING cluster.organization = 'djs-colo';
 ```
 
-### Step 1: Generate Node Cert on Node 4
-
-SSH into Node 4 and run:
-
-```bash
-cockroach cert create-node \
-  10.10.4.10 \
-  localhost \
-  127.0.0.1 \
-  --certs-dir=/home/ubuntu/certs \
-  --ca-key=/home/ubuntu/my-safe-directory/ca.key
-```
-
-Verify files:
-
-```bash
-ls -lrt /home/ubuntu/certs/
-```
-
-You should see:
-```
-ca.crt
-node.crt
-node.key
-```
-
-But failed 
-```
-ubuntu@crdb-node4:~$ cockroach cert create-node \
-  10.10.4.10 \
-  localhost \
-  127.0.0.1 \
-  --certs-dir=/home/ubuntu/certs \
-  --ca-key=/home/ubuntu/my-safe-directory/ca.key
-ERROR: connection lost.
-
-failed to generate node certificate and key: error writing node server certificate to /home/ubuntu/certs/node.crt: open /home/ubuntu/certs/node.crt: file exists
-Failed running "cert create-node"
-ubuntu@crdb-node4:~$ ls -lrt /home/ubuntu/certs/
-total 12
--rw-r--r-- 1 ubuntu ubuntu 1151 Aug  8 23:38 ca.crt
--rw------- 1 ubuntu ubuntu 1679 Aug  8 23:40 node.key
--rw-r--r-- 1 ubuntu ubuntu 1204 Aug  8 23:40 node.crt
-ubuntu@crdb-node4:~$ rm /home/ubuntu/certs/node.crt /home/ubuntu/certs/node.key
-```
-
----
-The error is clear — `node.crt` and `node.key` **already exist** in `/home/ubuntu/certs/` on Node 4. This happened because the files were copied over from Node 3 earlier.
-
-You actually **don't need to run `cockroach cert create-node` again** — the files are already there. But these are **Node 3's certificates**, not Node 4's. You need to delete them and regenerate.
-
----
-
-## Fix: Delete Existing Node Cert and Regenerate
-
-```bash
-# Delete the old node cert (these belong to Node 3)
-rm /home/ubuntu/certs/node.crt /home/ubuntu/certs/node.key
-
-# Now generate Node 4's certificate
-cockroach cert create-node \
-  10.10.4.10 \
-  localhost \
-  127.0.0.1 \
-  --certs-dir=/home/ubuntu/certs \
-  --ca-key=/home/ubuntu/my-safe-directory/ca.key
-```
-
-### Verify New Certs
-
-```bash
-ls -lrt /home/ubuntu/certs/
-```
-
-You should see fresh timestamps on `node.crt` and `node.key`:
-
-```
-ca.crt
-node.crt
-node.key
-```
-
----
-
-[[CockroachDB Doc Generate Certificates](https://www.cockroachlabs.com/docs/stable/cockroach-cert#examples)]
-
----
-
-### Step 2: Copy Certs to `/var/lib/cockroach/certs/` on Node 4
-
-```bash
-sudo mkdir -p /var/lib/cockroach/certs
-sudo cp /home/ubuntu/certs/ca.crt /var/lib/cockroach/certs/
-sudo cp /home/ubuntu/certs/node.crt /var/lib/cockroach/certs/
-sudo cp /home/ubuntu/certs/node.key /var/lib/cockroach/certs/
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/ca.crt
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/node.crt
-sudo chown cockroach:cockroach /var/lib/cockroach/certs/node.key
-sudo chmod 700 /var/lib/cockroach/certs
-```
-
-[[Generate Certificates](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises#step-2-generate-certificates)]
-
----
-
-### Step 3: Create Root Client Certificate (on Node 3)
-
-Go back to Node 3 and run:
-
-```bash
-cockroach cert create-client root \
-  --certs-dir=/home/ubuntu/certs \
-  --ca-key=/home/ubuntu/my-safe-directory/ca.key
-```
-
-dafdasfsdfasdfsadfdsfsadfadsfadsfdsfdsfsdfsdafadsfsdfadsfsdfasfdsfasdfadsfasdfsssssssssssssssssssssssss
-Yes, the certificates look **correct**! Here is what to confirm:
-
----
-
-### ✅ Certificate Verification
-
-| Item | Node 3 | Node 4 | Status |
-|---|---|---|---|
-| CA cert | `ca.crt` expires 2036/08/15 | `ca.crt` expires 2036/08/15 | ✅ Same CA |
-| Node cert | expires 2031/08/13 | expires 2031/08/12 | ✅ Valid |
-| Node address | `10.10.3.10` | `10.10.4.10` | ✅ Correct IPs |
-| Error column | empty | empty | ✅ No errors |
-
 [[List Certificates](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises#step-2-generate-certificates)]
 
 ---
 
 ### ✅ What This Confirms
 
-- Both nodes have the **same CA** (`ca.crt`) — required for nodes to trust each other
+- All the 3 nodes have the **Same CA** (`ca.crt`) — required for nodes to trust each other
 - Each node has its **own unique node cert** with the correct IP address
 - **No errors** in either certificate
 - Certificates are **valid for many years**
 
 ---
 
-### Step 4: Update /etc/default/cockroach Files on BOTH Mumbai Nodes
+### Step 4: Update /etc/default/cockroach Files on THREE (3) Mumbai Nodes
 
 Run on **Each Mumbai node**:
 
 ```bash
 sudo tee /etc/default/cockroach <<EOF
-NODE_IP=10.10.3.10
+NODE_IP=10.10.1.10
 DATA_DIR=/var/lib/cockroach/data
 LOG_DIR=/var/lib/cockroach/logs
-JOIN_NODES=10.10.3.10:26257,10.10.4.10:26257
+JOIN_NODES=10.10.1.10:26257,10.10.2.10:26257,10.10.3.10:26257
 LOCALITY=region=ap-south-1,zone=ap-south-1a
 CERTS_DIR=/var/lib/cockroach/certs
 EOF
@@ -171,11 +42,22 @@ EOF
 
 ```bash
 sudo tee /etc/default/cockroach <<EOF
-NODE_IP=10.10.4.10
+NODE_IP=10.10.2.10
 DATA_DIR=/var/lib/cockroach/data
 LOG_DIR=/var/lib/cockroach/logs
-JOIN_NODES=10.10.3.10:26257,10.10.4.10:26257
+JOIN_NODES=10.10.2.10:26257,10.10.3.10:26257,10.10.1.10:26257
 LOCALITY=region=ap-south-1,zone=ap-south-1b
+CERTS_DIR=/var/lib/cockroach/certs
+EOF
+```
+
+```bash
+sudo tee /etc/default/cockroach <<EOF
+NODE_IP=10.10.3.10
+DATA_DIR=/var/lib/cockroach/data
+LOG_DIR=/var/lib/cockroach/logs
+JOIN_NODES=10.10.3.10:26257,10.10.1.10:26257,10.10.2.10:26257
+LOCALITY=region=ap-south-1,zone=ap-south-1c
 CERTS_DIR=/var/lib/cockroach/certs
 EOF
 ```
@@ -249,11 +131,14 @@ LimitNOFILE=1048576
 WantedBy=multi-user.target
 EOF
 ```
+### For Node 3, Repeat about Step cockroach.service
+---
 **Checklist**
 Verify the Full File
 ```
 systemctl cat cockroach
 ```
+
 Make sure you see **all these flags** in `ExecStart`:
 
 | Flag | Expected Value |
@@ -271,11 +156,18 @@ Make sure you see **all these flags** in `ExecStart`:
 
 ### Step 5: Stop, Wipe Data & Restart on Both Mumbai Nodes
 
-> ⚠️ This deletes all existing insecure data. Run on **both Node 3 and Node 4**:
+> ⚠️ This deletes all existing insecure data. if already we worked with insecure on AWS  Run on **both Node 1, Node 2 and Node 3**:
 
 ```bash
 sudo systemctl stop cockroach
 sudo rm -rf /var/lib/cockroach/data/*
+sudo rm -rf /var/lib/cockroach/log/*
+```
+```
+sudo mkdir -p /var/lib/cockroach/data
+sudo mkdir -p /var/lib/cockroach/logs
+sudo chown -R cockroach:cockroach /var/lib/cockroach/
+```
 sudo systemctl daemon-reload
 sudo systemctl start cockroach
 ```
@@ -306,14 +198,13 @@ cockroach node status --certs-dir=/home/ubuntu/certs --host=10.10.1.10
 ```
 Expected Output
 ```
-ubuntu@crdb-node3:~$ cockroach node status \
-  --certs-dir=/home/ubuntu/certs \
-  --host=10.10.3.10
+ubuntu@crdb-node1:~$ cockroach node status --certs-dir=/home/ubuntu/certs --host=10.10.1.10
   id |     address      |   sql_address    |  build  |              started_at              |              updated_at              |              locality              | is_available | is_live
 -----+------------------+------------------+---------+--------------------------------------+--------------------------------------+------------------------------------+--------------+----------
-   1 | 10.10.3.10:26257 | 10.10.3.10:26257 | v25.2.2 | 2026-08-09 01:32:50.498025 +0000 UTC | 2026-08-09 01:35:32.552168 +0000 UTC | region=ap-south-1,zone=ap-south-1a | true         | true
-   2 | 10.10.4.10:26257 | 10.10.4.10:26257 | v25.2.2 | 2026-08-09 01:32:50.810229 +0000 UTC | 2026-08-09 01:35:32.83211 +0000 UTC  | region=ap-south-1,zone=ap-south-1b | true         | true
-(2 rows)
+   1 | 10.10.1.10:26257 | 10.10.1.10:26257 | v25.2.2 | 2026-08-20 01:55:31.680657 +0000 UTC | 2026-08-20 03:59:34.718401 +0000 UTC | region=ap-south-1,zone=ap-south-1a | true         | true
+   2 | 10.10.3.10:26257 | 10.10.3.10:26257 | v25.2.2 | 2026-08-20 01:56:00.706849 +0000 UTC | 2026-08-20 03:59:33.724515 +0000 UTC | region=ap-south-1,zone=ap-south-1c | true         | true
+   3 | 10.10.2.10:26257 | 10.10.2.10:26257 | v25.2.2 | 2026-08-20 01:56:08.01581 +0000 UTC  | 2026-08-20 03:59:35.032321 +0000 UTC | region=ap-south-1,zone=ap-south-1b | true         | true
+(3 rows)
 ```
 
 ---
@@ -324,8 +215,9 @@ Both nodes are live and healthy:
 
 | Node | Address | Locality | Available | Live |
 |---|---|---|---|---|
-| 1 | 10.10.3.10:26257 | ap-south-1a | ✅ true | ✅ true |
-| 2 | 10.10.4.10:26257 | ap-south-1b | ✅ true | ✅ true |
+| 1 | 10.10.1.10:26257 | ap-south-1a | ✅ true | ✅ true |
+| 2 | 10.10.2.10:26257 | ap-south-1b | ✅ true | ✅ true |
+| 3 | 10.10.3.10:26257 | ap-south-1c | ✅ true | ✅ true |
 
 ---
 
@@ -348,8 +240,8 @@ Now you need to set up the **Singapore cluster** (primary cluster for PCR). Here
 
 | Cluster | Region | Role |
 |---|---|---|
-| Singapore (Node 1 & 2) | ap-southeast-1 | **Primary** (active, serves traffic) |
-| Mumbai (Node 3 & 4) | ap-south-1 | **Standby** (passive, receives replication) |
+| Mumbai (Node 1,2,3) | ap-southeast-1 | **Primary** (active, serves traffic) |
+| Singapore (Node 5,6,7) | ap-south-1 | **Standby** (passive, receives replication) |
 
 ---
 
