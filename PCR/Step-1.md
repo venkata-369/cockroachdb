@@ -96,6 +96,14 @@ cockroach cert create-node \
   --ca-key=/home/ubuntu/my-safe-directory/ca.key
 ```
 
+### Step 4: Generate Client Certs on Node 1 & Node 2 
+
+```
+Client Certificates On Every Node
+cockroach cert create-client root \
+  --certs-dir=/home/ubuntu/certs \
+  --ca-key=/home/ubuntu/my-safe-directory/ca.key
+```
 ---
 
 #### ⚠️ Key Points
